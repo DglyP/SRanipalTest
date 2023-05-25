@@ -42,12 +42,18 @@ namespace ViveSR
                     }
 
                     Vector3 GazeOriginCombinedLocal, GazeDirectionCombinedLocal;
+                    Vector2 PupilPosition = new Vector2(0f, 0f);
+                    Vector2 PupilPosition2 = new Vector2(0f,0f);
 
                     if (eye_callback_registered)
                     {
                         if (SRanipal_Eye_v2.GetGazeRay(GazeIndex.COMBINE, out GazeOriginCombinedLocal, out GazeDirectionCombinedLocal, eyeData)) { }
                         else if (SRanipal_Eye_v2.GetGazeRay(GazeIndex.LEFT, out GazeOriginCombinedLocal, out GazeDirectionCombinedLocal, eyeData)) { }
                         else if (SRanipal_Eye_v2.GetGazeRay(GazeIndex.RIGHT, out GazeOriginCombinedLocal, out GazeDirectionCombinedLocal, eyeData)) { }
+
+                        if (SRanipal_Eye_v2.GetPupilPosition(EyeIndex.LEFT, out PupilPosition, eyeData)) { }
+                        else if (SRanipal_Eye_v2.GetPupilPosition(EyeIndex.RIGHT, out PupilPosition2, eyeData)) { }
+
                         else return;
                     }
                     else
@@ -62,9 +68,15 @@ namespace ViveSR
                     GazeRayRenderer.SetPosition(0, Camera.main.transform.position - Camera.main.transform.up * 0.05f);
                     GazeRayRenderer.SetPosition(1, Camera.main.transform.position + GazeDirectionCombined * LengthOfRay);
 
-                    Debug.Log(eyeData.verbose_data.left.pupil_diameter_mm);
-                    Debug.Log("------------------");
-                    Debug.Log(eyeData.verbose_data.right.pupil_position_in_sensor_area);
+                    //Debug.Log(eyeData.verbose_data.left.pupil_diameter_mm);
+                    //Debug.Log("------------------");
+                    //Debug.Log(eyeData.verbose_data.right.pupil_position_in_sensor_area);
+
+                    //Debug.Log("------------------LEFT");
+                    //Debug.Log(GazeDirectionCombinedLocal);
+
+                    //Debug.Log("------------------RIGHT");
+                   // Debug.Log(PupilPosition2);
                 }
                 private void Release()
                 {
