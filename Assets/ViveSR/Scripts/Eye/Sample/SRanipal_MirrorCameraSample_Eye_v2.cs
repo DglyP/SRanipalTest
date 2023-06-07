@@ -14,7 +14,7 @@ namespace ViveSR
             [RequireComponent(typeof(Camera))]
             public class SRanipal_MirrorCameraSample_Eye_v2 : MonoBehaviour
             {
-                private const float Distance = 0.6f;
+                private const float Distance = 2.6f;
                 private static EyeData_v2 eyeData = new EyeData_v2();
                 private bool eye_callback_registered = false;
 
