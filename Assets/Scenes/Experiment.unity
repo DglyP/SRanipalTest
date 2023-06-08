@@ -164,7 +164,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8131165616503585759, guid: 171bb70f30a005f4cb62583a2470d1bb, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -0.045
+      value: -0.035
       objectReference: {fileID: 0}
     - target: {fileID: 8131165616503585759, guid: 171bb70f30a005f4cb62583a2470d1bb, type: 3}
       propertyPath: m_LocalPosition.y
@@ -447,8 +447,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   EyesModels:
-  - {fileID: 1854546325}
-  - {fileID: 695750854}
+  - {fileID: 1888038928}
+  - {fileID: 1888038932}
   EyeShapeTables:
   - skinnedMeshRenderer: {fileID: 1885217074}
     eyeShapes: ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff000000000100000002000000030000000400000005000000060000000700000008000000090000000a0000000b0000000c000000ffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff
@@ -577,12 +577,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9b5f31b3ba3e4b149beda45124afa9fc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  NumberOfStimuli: 3
+  numberOfStimuli: {fileID: 11400000, guid: 5eb295d6fde0ea14ab3f0f74209677f7, type: 2}
+  readyToChange: {fileID: 11400000, guid: 5eb295d6fde0ea14ab3f0f74209677f7, type: 2}
   realHuman: {fileID: 7250023208709362976}
   avatar: {fileID: 1888398386}
   eyes: {fileID: 1029645706}
   textComponent: {fileID: 1116824456}
-  readyToChange: 1
+  RealMaterial: {fileID: 2100000, guid: e57f01019f3b4044992a23a2ac502ea3, type: 2}
+  AvatarMaterial: {fileID: 2100000, guid: 1199d1f3cbef8b646b5ae320feee2577, type: 2}
+  EyesMaterial: {fileID: 2100000, guid: 2a240b0164f435c47a248e55690ba286, type: 2}
 --- !u!1 &607141577
 GameObject:
   m_ObjectHideFlags: 0
@@ -1183,6 +1186,11 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 802456284}
   m_Mesh: {fileID: 10210, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!1 &819002826 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5083699577572690380, guid: 171bb70f30a005f4cb62583a2470d1bb, type: 3}
+  m_PrefabInstance: {fileID: 36362310}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &829362271
 GameObject:
   m_ObjectHideFlags: 0
@@ -1498,6 +1506,7 @@ GameObject:
   - component: {fileID: 1029645707}
   - component: {fileID: 1029645709}
   - component: {fileID: 1029645708}
+  - component: {fileID: 1029645710}
   m_Layer: 0
   m_Name: Avatar_Shieh_V2 (1)
   m_TagString: Untagged
@@ -1513,7 +1522,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1029645706}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: -0.0191, z: -0.8}
+  m_LocalPosition: {x: 0, y: -0.0191, z: -0.926}
   m_LocalScale: {x: 8, y: 8, z: 8}
   m_Children:
   - {fileID: 1414962441}
@@ -1634,6 +1643,23 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &1029645710
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1029645706}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 53a984028ff8c29408227059af4fd39b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  EyesWithPupil: {fileID: 819002826}
+  material: {fileID: 2100000, guid: 2a240b0164f435c47a248e55690ba286, type: 2}
+  numberOfStimuli: {fileID: 11400000, guid: 5eb295d6fde0ea14ab3f0f74209677f7, type: 2}
+  readyToChange: {fileID: 11400000, guid: 5eb295d6fde0ea14ab3f0f74209677f7, type: 2}
+  speed: 4
 --- !u!1 &1108341085
 GameObject:
   m_ObjectHideFlags: 0
@@ -2288,7 +2314,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8131165616503585759, guid: 171bb70f30a005f4cb62583a2470d1bb, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0.045
+      value: 0.035
       objectReference: {fileID: 0}
     - target: {fileID: 8131165616503585759, guid: 171bb70f30a005f4cb62583a2470d1bb, type: 3}
       propertyPath: m_LocalPosition.y
@@ -3146,8 +3172,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1888398386}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: -0.8}
-  m_LocalScale: {x: 7, y: 7, z: 7}
+  m_LocalPosition: {x: 0.00085994, y: 0.068, z: -0.627}
+  m_LocalScale: {x: 5.8310003, y: 5.8310003, z: 5.8310003}
   m_Children:
   - {fileID: 1888038934}
   - {fileID: 1888038938}
@@ -3259,6 +3285,7 @@ GameObject:
   - component: {fileID: 1888038930}
   - component: {fileID: 1881137138}
   - component: {fileID: 477286447}
+  - component: {fileID: 1888398387}
   m_Layer: 0
   m_Name: Avatar_Fairy_V2
   m_TagString: Untagged
@@ -3266,6 +3293,23 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 0
+--- !u!114 &1888398387
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1888398386}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 53a984028ff8c29408227059af4fd39b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  EyesWithPupil: {fileID: 2013330543}
+  material: {fileID: 2100000, guid: 1199d1f3cbef8b646b5ae320feee2577, type: 2}
+  numberOfStimuli: {fileID: 11400000, guid: 5eb295d6fde0ea14ab3f0f74209677f7, type: 2}
+  readyToChange: {fileID: 11400000, guid: 5eb295d6fde0ea14ab3f0f74209677f7, type: 2}
+  speed: 4
 --- !u!1 &1888398388
 GameObject:
   m_ObjectHideFlags: 0
@@ -3627,6 +3671,11 @@ Transform:
   m_Father: {fileID: 1029645707}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &2013330543 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5083699577572690380, guid: 171bb70f30a005f4cb62583a2470d1bb, type: 3}
+  m_PrefabInstance: {fileID: 883980662}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &2078097249
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -3926,6 +3975,11 @@ MonoBehaviour:
       data1: 0
       data2: 0
   defaultFrameSettings: 0
+--- !u!1 &2113216952 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5083699577572690380, guid: 171bb70f30a005f4cb62583a2470d1bb, type: 3}
+  m_PrefabInstance: {fileID: 2078097249}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &2113415173
 GameObject:
   m_ObjectHideFlags: 0
@@ -4418,6 +4472,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 53a984028ff8c29408227059af4fd39b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  EyesWithPupil: {fileID: 2113216952}
+  material: {fileID: 2100000, guid: e57f01019f3b4044992a23a2ac502ea3, type: 2}
+  numberOfStimuli: {fileID: 11400000, guid: 5eb295d6fde0ea14ab3f0f74209677f7, type: 2}
+  readyToChange: {fileID: 11400000, guid: 5eb295d6fde0ea14ab3f0f74209677f7, type: 2}
+  speed: 4
 --- !u!1 &7250023208709362980
 GameObject:
   m_ObjectHideFlags: 0
