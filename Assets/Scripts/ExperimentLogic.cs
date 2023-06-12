@@ -1,8 +1,11 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using TMPro;
 using UnityEngine;
+using UnityEngine.SceneManagement;
+
 
 namespace ViveSR
 {
@@ -14,12 +17,13 @@ namespace ViveSR
             {
                 EyeData eye;
 
-                public ExperimentValues numberOfStimuli;
-                public ExperimentValues readyToChange;
+                public ExperimentValues experimentLogic;
                 private int currentStimuli = 0;
                 public GameObject realHuman;
                 public GameObject avatar;
                 public GameObject eyes;
+                public GameObject startInstructions;
+                public GameObject endInstructions;
                 public TextMeshProUGUI textComponent;
                 private string currentAvatar;
                 private AvatarController avatarController;
@@ -28,6 +32,9 @@ namespace ViveSR
                 public Material EyesMaterial;
                 List<string> keyList;
                 Dictionary<string, string> randomizedDictionary;
+                private bool isCoroutineRunning = false;
+                private bool coroutineDone;
+                private bool instructionsGiven;
 
                 // Fisher-Yates randomization to shuffle a list
                 private void ShuffleList<T>(List<T> list)
@@ -108,8 +115,9 @@ namespace ViveSR
                 // Start is called before the first frame update
                 void Start()
                 {
-                    Debug.Log("stimuli amount is " + numberOfStimuli.stimuliAmount);
-                    numberOfStimuli.stimuliAmount = numberOfStimuli.stimuliAmount == 0 ? 9 : numberOfStimuli.stimuliAmount;
+                    Debug.Log("Stimuli amount is " + experimentLogic.stimuliAmount);
+                    experimentLogic.stimuliAmount = experimentLogic.stimuliAmount == 0 ? 9 : experimentLogic.stimuliAmount;
+                    experimentLogic.stageReady = true;
 
                     if (SRanipal_Eye_API.GetEyeData(ref eye) == ViveSR.Error.WORK)
                     {
@@ -125,7 +133,7 @@ namespace ViveSR
                     string[] avatarList = { "real", "avatar", "eyes" };
                     string[] irisList = { "1", "0", "0.5" };
 
-                    keyList = CreateListOfAvatars(avatarList, irisList, numberOfStimuli.stimuliAmount);
+                    keyList = CreateListOfAvatars(avatarList, irisList, experimentLogic.stimuliAmount);
 
                     List<string> valueList = randomizedDictionary.Values.ToList();
 
@@ -134,7 +142,7 @@ namespace ViveSR
                     Debug.Log("List of Values: " + string.Join("  -  ", valueList));
 
                 }
-
+                
                 void ChangeAvatar()
                 {
                     realHuman.gameObject.SetActive(false);
@@ -144,14 +152,17 @@ namespace ViveSR
                     switch (currentAvatar)
                     {
                         case var k when k.Contains("real"):
+                            Debug.Log("Making real");
                             realHuman.gameObject.SetActive(true);
                             PrepareModel(realHuman, randomizedDictionary[currentAvatar], RealMaterial);
                             break;
                         case var k when k.Contains("avatar"):
+                            Debug.Log("Making real");
                             avatar.gameObject.SetActive(true);
                             PrepareModel(avatar, randomizedDictionary[currentAvatar], AvatarMaterial);
                             break;
                         case var k when k.Contains("eyes"):
+                            Debug.Log("Making real");
                             eyes.gameObject.SetActive(true);
                             PrepareModel(eyes, randomizedDictionary[currentAvatar], EyesMaterial);
                             break;
@@ -178,19 +189,74 @@ namespace ViveSR
                     avatarController.StartCoroutine(avatarController.ChangePupilSize(startstimuliAmount, targetstimuliAmount, duration, material));
                 }
 
+                private IEnumerator GiveInstructions()
+                {
+                    Debug.Log("Waiting for 5 seconds...");
+                    startInstructions.SetActive(true);
+                    coroutineDone = false;
+                    yield return new WaitForSeconds(5f);
+                    coroutineDone = true;
+                    startInstructions.SetActive(false);
+                    Debug.Log("Continuing after 5 seconds.");
+                    isCoroutineRunning = false; // Set the flag to indicate that the coroutine has finished
+                    instructionsGiven = true;
+                }
+
+                private IEnumerator EndSession()
+                {
+                    Debug.Log("Waiting for 5 seconds after end...");
+                    realHuman.gameObject.SetActive(false);
+                    avatar.gameObject.SetActive(false);
+                    eyes.gameObject.SetActive(false);
+                    endInstructions.SetActive(true);
+                    yield return new WaitForSeconds(5f);
+                    endInstructions.SetActive(false);
+                    Debug.Log("Continuing after 5 seconds...");
+                    SceneManager.LoadScene("StartScene");
+                    isCoroutineRunning = false; // Set the flag to indicate that the coroutine has finished
+                }
+
+
                 void CheckIfDone()
                 {
-                    if (currentStimuli >= numberOfStimuli.stimuliAmount)
+                    if (currentStimuli >= experimentLogic.stimuliAmount && experimentLogic.stageReady)
                     {
-                        // Handle the case when all stimuli have been presented
+                        if (!isCoroutineRunning) // Check if the coroutine is already running
+                        {
+                            isCoroutineRunning = true;
+                            StartCoroutine(EndSession());
+                        }
                     }
 
-                    if (readyToChange.stageReady == true)
+                    if (currentStimuli == 0)
                     {
-                        readyToChange.stageReady = false;
-                        currentAvatar = keyList[currentStimuli];
-                        ChangeAvatar();
-                        currentStimuli += 1;
+                        if (experimentLogic.stageReady)
+                        {
+                            Debug.Log("Instructions will be shown");
+                            if (!isCoroutineRunning && !instructionsGiven) // Check if the coroutine is already running
+                            {
+                                isCoroutineRunning = true;
+                                StartCoroutine(GiveInstructions());
+                            }
+                            if (coroutineDone)
+                            {
+                                Debug.Log("5 seconds passed");
+                                currentAvatar = keyList[currentStimuli];
+                                currentStimuli += 1;
+                                ChangeAvatar();
+                                experimentLogic.stageReady = false;
+                            }
+                        }
+                    }
+                    if (currentStimuli > 0 && currentStimuli < keyList.Count)
+                    {
+                        if (experimentLogic.stageReady)
+                        {
+                            currentAvatar = keyList[currentStimuli];
+                            currentStimuli += 1;
+                            ChangeAvatar();
+                            experimentLogic.stageReady = false;
+                        }
                     }
                 }
 

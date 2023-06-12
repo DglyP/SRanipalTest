@@ -1,17 +1,21 @@
-﻿//========= Copyright 2018, HTC Corporation. All rights reserved. ===========
+//========= Copyright 2018, HTC Corporation. All rights reserved. ===========
 using System;
 using System.Runtime.InteropServices;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 namespace ViveSR.anipal.Eye
 {
-    public class SRanipal_EyeFocusSample_v2 : MonoBehaviour
+    public class FocusScript : MonoBehaviour
     {
         private FocusInfo FocusInfo;
         private readonly float MaxDistance = 20;
         private readonly GazeIndex[] GazePriority = new GazeIndex[] { GazeIndex.COMBINE, GazeIndex.LEFT, GazeIndex.RIGHT };
         private static EyeData_v2 eyeData = new EyeData_v2();
         private bool eye_callback_registered = false;
+        private bool isLookingAtDartboard = false;
+        private float lookTimer = 0f;
+        private const float requiredLookTime = 2f;
         private void Start()
         {
             if (!SRanipal_Eye_Framework.Instance.EnableEye)
@@ -37,6 +41,8 @@ namespace ViveSR.anipal.Eye
                 eye_callback_registered = false;
             }
 
+
+            bool foundDartboard = false;
             foreach (GazeIndex index in GazePriority)
             {
                 Ray GazeRay;
@@ -47,12 +53,29 @@ namespace ViveSR.anipal.Eye
                 else
                     eye_focus = SRanipal_Eye_v2.Focus(index, out GazeRay, out FocusInfo, 0, MaxDistance, (1 << dart_board_layer_id));
 
-                if (eye_focus)
+                 if (eye_focus)
                 {
                     DartBoard dartBoard = FocusInfo.transform.GetComponent<DartBoard>();
-                    if (dartBoard != null) dartBoard.Focus(FocusInfo.point);
-                    Debug.Log("Looking at dartboard");
-                    break;
+                    if (dartBoard != null)
+                    {
+                        dartBoard.Focus(FocusInfo.point);
+
+                        if (!isLookingAtDartboard)
+                        {
+                            isLookingAtDartboard = true;
+                            lookTimer = 0f;
+                            Debug.Log("Started looking at dartboard");
+                        }
+
+                        lookTimer += Time.deltaTime;
+                        if (lookTimer >= requiredLookTime)
+                        {
+                            SceneManager.LoadScene("Experiment");
+                        }
+
+                        foundDartboard = true;
+                        break;
+                    }
                 }
             }
         }
