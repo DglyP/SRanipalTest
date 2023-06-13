@@ -41,8 +41,10 @@ namespace ViveSR.anipal.Eye
                 eye_callback_registered = false;
             }
 
-
             bool foundDartboard = false;
+            bool isLookingAtDartboardPreviousFrame = isLookingAtDartboard; // Store the previous state of looking at the dartboard
+            isLookingAtDartboard = false; // Assume not looking at the dartboard until proven otherwise
+
             foreach (GazeIndex index in GazePriority)
             {
                 Ray GazeRay;
@@ -53,17 +55,18 @@ namespace ViveSR.anipal.Eye
                 else
                     eye_focus = SRanipal_Eye_v2.Focus(index, out GazeRay, out FocusInfo, 0, MaxDistance, (1 << dart_board_layer_id));
 
-                 if (eye_focus)
+                if (eye_focus)
                 {
                     DartBoard dartBoard = FocusInfo.transform.GetComponent<DartBoard>();
                     if (dartBoard != null)
                     {
                         dartBoard.Focus(FocusInfo.point);
 
-                        if (!isLookingAtDartboard)
+                        isLookingAtDartboard = true; // Set the flag to true when looking at the dartboard
+
+                        if (!isLookingAtDartboardPreviousFrame)
                         {
-                            isLookingAtDartboard = true;
-                            lookTimer = 0f;
+                            lookTimer = 0f; // Reset the timer when starting to look at the dartboard
                             Debug.Log("Started looking at dartboard");
                         }
 
@@ -78,7 +81,16 @@ namespace ViveSR.anipal.Eye
                     }
                 }
             }
+
+            if (!foundDartboard && isLookingAtDartboardPreviousFrame)
+            {
+                // Reset the timer if the user was previously looking at the dartboard but not anymore
+                isLookingAtDartboard = false;
+                lookTimer = 0f;
+                Debug.Log("Stopped looking at dartboard");
+            }
         }
+
         private void Release()
         {
             if (eye_callback_registered == true)

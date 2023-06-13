@@ -213,6 +213,7 @@ namespace ViveSR
                     endInstructions.SetActive(false);
                     Debug.Log("Continuing after 5 seconds...");
                     SceneManager.LoadScene("StartScene");
+                    experimentLogic.currentSession += 1;
                     isCoroutineRunning = false; // Set the flag to indicate that the coroutine has finished
                 }
 

@@ -12,5 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 00a9b43e4926b4d479673081e955acda, type: 3}
   m_Name: ExperimentValues
   m_EditorClassIdentifier: 
+  participantID: 1
+  currentSession: 1
+  numberOfSessions: 20
   stimuliAmount: 3
   stageReady: 1
