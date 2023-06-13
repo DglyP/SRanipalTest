@@ -35,6 +35,7 @@ namespace ViveSR
                 private bool isCoroutineRunning = false;
                 private bool coroutineDone;
                 private bool instructionsGiven;
+                public OrganizeData organizeData;
 
                 // Fisher-Yates randomization to shuffle a list
                 private void ShuffleList<T>(List<T> list)
@@ -152,18 +153,21 @@ namespace ViveSR
                     switch (currentAvatar)
                     {
                         case var k when k.Contains("real"):
-                            Debug.Log("Making real");
+                            Debug.Log("Making Human");
                             realHuman.gameObject.SetActive(true);
+                            organizeData.AppendDataToXml("Stimuli", "Human");
                             PrepareModel(realHuman, randomizedDictionary[currentAvatar], RealMaterial);
                             break;
                         case var k when k.Contains("avatar"):
-                            Debug.Log("Making real");
+                            Debug.Log("Making Anime");
                             avatar.gameObject.SetActive(true);
+                            organizeData.AppendDataToXml("Stimuli", "Anime");
                             PrepareModel(avatar, randomizedDictionary[currentAvatar], AvatarMaterial);
                             break;
                         case var k when k.Contains("eyes"):
-                            Debug.Log("Making real");
+                            Debug.Log("Making Eyes");
                             eyes.gameObject.SetActive(true);
+                            organizeData.AppendDataToXml("Stimuli", "Eyes");
                             PrepareModel(eyes, randomizedDictionary[currentAvatar], EyesMaterial);
                             break;
                         default:
@@ -213,7 +217,6 @@ namespace ViveSR
                     endInstructions.SetActive(false);
                     Debug.Log("Continuing after 5 seconds...");
                     SceneManager.LoadScene("StartScene");
-                    experimentLogic.currentSession += 1;
                     isCoroutineRunning = false; // Set the flag to indicate that the coroutine has finished
                 }
 
@@ -233,7 +236,7 @@ namespace ViveSR
                     {
                         if (experimentLogic.stageReady)
                         {
-                            Debug.Log("Instructions will be shown");
+                            Debug.Log("Instructions are being shown");
                             if (!isCoroutineRunning && !instructionsGiven) // Check if the coroutine is already running
                             {
                                 isCoroutineRunning = true;

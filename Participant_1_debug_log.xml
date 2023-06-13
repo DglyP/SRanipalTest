@@ -1,10 +1,32 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <ParticipantNumber_1>
   <Session_1>
-    <Time>2023/06/13 12:06:47</Time>
+    <Time>2023/06/13 17:45:58</Time>
   </Session_1>
-  <PupilData VariableName="Time" VariableValue="2023/06/13 12:13:27" />
+  <PupilData VariableName="Time" VariableValue="2023/06/13 17:46:05" />
+  <PupilData VariableName="Restarted " VariableValue="1" />
+  <PupilData VariableName="Session_" VariableValue="2" />
+  <PupilData VariableName="Time" VariableValue="2023/06/13 17:46:05" />
+  <PupilData VariableName="Time" VariableValue="2023/06/13 17:46:09" />
   <PupilData VariableName="Restarted " VariableValue="1" />
   <PupilData VariableName="Session_" VariableValue="3" />
-  <PupilData VariableName="Time" VariableValue="2023/06/13 12:13:28" />
+  <PupilData VariableName="Time" VariableValue="2023/06/13 17:46:09" />
+  <PupilData VariableName="Stimuli" VariableValue="Eyes" />
+  <PupilData VariableName="Stimuli" VariableValue="Human" />
+  <PupilData VariableName="Stimuli" VariableValue="Anime" />
+  <PupilData VariableName="Time" VariableValue="2023/06/13 17:47:26" />
+  <PupilData VariableName="Restarted " VariableValue="1" />
+  <PupilData VariableName="Session_" VariableValue="4" />
+  <PupilData VariableName="Time" VariableValue="2023/06/13 17:47:26" />
+  <PupilData VariableName="Time" VariableValue="2023/06/13 17:47:29" />
+  <PupilData VariableName="Restarted " VariableValue="1" />
+  <PupilData VariableName="Session_" VariableValue="5" />
+  <PupilData VariableName="Time" VariableValue="2023/06/13 17:47:29" />
+  <PupilData VariableName="Stimuli" VariableValue="Human" />
+  <PupilData VariableName="Stimuli" VariableValue="Eyes" />
+  <PupilData VariableName="Stimuli" VariableValue="Eyes" />
+  <PupilData VariableName="Time" VariableValue="2023/06/13 17:48:45" />
+  <PupilData VariableName="Restarted " VariableValue="1" />
+  <PupilData VariableName="Session_" VariableValue="6" />
+  <PupilData VariableName="Time" VariableValue="2023/06/13 17:48:45" />
 </ParticipantNumber_1>

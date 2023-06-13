@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using ViveSR.anipal.Eye;
 
 public class AvatarController : MonoBehaviour
 {
@@ -11,36 +12,43 @@ public class AvatarController : MonoBehaviour
     private Renderer rendererComponent;
     public ExperimentValues numberOfStimuli;
     public ExperimentValues readyToChange;
+    public GameObject pupilDataGatherer;
     private int pupilApertureID;
     public float speed = 4f;
 
-    // Define a delegate type for the callback
-    public delegate void PupilSizeChangedCallback();
-
-    // Event that will be triggered when the pupil size is changed
-    public event PupilSizeChangedCallback OnPupilSizeChanged;
+    private Coroutine gatherDataCoroutine;
 
     private void OnEnable()
     {
         StartCoroutine(PupilManager());
-        OnPupilSizeChanged += HandlePupilSizeChangedCoroutine;
     }
 
-    private void HandlePupilSizeChangedCoroutine()
+    private void OnDisable()
     {
-        // Implement your logic here
-        StartCoroutine(WaitToGatherData());
-        Debug.Log("Pupil size done!");
+        StopGatherDataCoroutine();
+    }
+
+    private void StopGatherDataCoroutine()
+    {
+        if (gatherDataCoroutine != null)
+        {
+            Debug.Log("Stopped gathering data");
+            StopCoroutine(gatherDataCoroutine);
+            gatherDataCoroutine = null;
+        }
     }
 
     private IEnumerator WaitToGatherData()
     {
-        // Implement your coroutine logic here
-        Debug.Log("Waiting to get eye tracking data");
+        // Call the GatherData coroutine repeatedly during the 15 seconds
+        // Start the GatherData coroutine from the DataGatherer script in PupilDataGatherer
+        Debug.Log("Waiting for 15 seconds to gather data");
         yield return new WaitForSeconds(15f);
-        Debug.Log("Coroutine completed.");
+        Debug.Log("Stopping Gathering Data");
+        StopCoroutine(gatherDataCoroutine );
         readyToChange.stageReady = true;
     }
+
 
     private IEnumerator PupilManager()
     {
@@ -52,64 +60,55 @@ public class AvatarController : MonoBehaviour
             rendererComponent.enabled = true; // Enable rendering
         }
 
-        yield return new WaitForSeconds(5f);
-        Debug.Log("FiveSecondsPassed");
+        Debug.Log("Waiting for 2 seconds before gathering data");
+        yield return new WaitForSeconds(2f);
+        Debug.Log("2 Seconds passed, now gathering data");
+
+        DataGatherer dataGatherer = pupilDataGatherer.GetComponent<DataGatherer>();
+        gatherDataCoroutine = StartCoroutine(dataGatherer.GatherData());
+
         rendererComponent = EyesWithPupil.GetComponent<Renderer>();
 
-        // Assuming the material you want to access is at index 0
-        //Material material = rendererComponent.materials[0];
-
-        // Get the ID for the 'PupilAperture' property using the reference in the shader graph
         pupilApertureID = Shader.PropertyToID("Vector1_FEA38ABB");
-        Debug.Log("Pupil Aperture ID: " + pupilApertureID);
 
-        // Get the current value of the 'PupilAperture' property
         float startValue = material.GetFloat(pupilApertureID);
-        Debug.Log("Pupil Aperture value: " + startValue);
 
-        // Run the method and trigger the event before starting the coroutine
-        MethodToRunBeforePupilSizeChanged();
-        OnPupilSizeChanged?.Invoke();
-
-        // Specify the target value and duration for the smooth transition
         float targetValue = GetNewPupilSize(startValue);
         float transitionDuration = speed;
 
-        // Perform the smooth transition
+        Debug.Log("Performing transition of pupils");
         yield return StartCoroutine(ChangePupilSize(startValue, targetValue, transitionDuration, material));
+        Debug.Log("Transition completed!");
 
-        // After the transition, you can perform any additional actions here
-        // Trigger the event after the pupil size has changed
-        OnPupilSizeChanged?.Invoke();
+        // Wait for 15 seconds before calling GatherData
+        yield return StartCoroutine(WaitToGatherData());
+
+        // Stop the GatherData coroutine
+        StopGatherDataCoroutine();
     }
 
-    private void MethodToRunBeforePupilSizeChanged()
+    private float GetNewPupilSize(float currentValue)
     {
-        // Run your additional method here
-    }
-
-    private float GetNewPupilSize(float startValue)
-    {
-        float targetValue = (startValue < 0.5f) ? 0.8f : (startValue > 0.5f) ? 0f : 0.5f;
-        return targetValue;
+        if (currentValue < 0.5f)
+        {
+            return 1f;
+        }
+        else
+        {
+            return 0f;
+        }
     }
 
     public IEnumerator ChangePupilSize(float startValue, float targetValue, float duration, Material material)
     {
-        float elapsedTime = 0f;
-
-        while (elapsedTime < duration)
+        float timeElapsed = 0f;
+        while (timeElapsed < duration)
         {
-            float t = elapsedTime / duration;
-            float currentValue = Mathf.Lerp(startValue, targetValue, t);
-            material.SetFloat(pupilApertureID, currentValue);
-            Debug.Log("Changing, currently at " + currentValue);
+            timeElapsed += Time.deltaTime;
+            float t = Mathf.Clamp01(timeElapsed / duration);
+            float value = Mathf.Lerp(startValue, targetValue, t);
+            material.SetFloat(pupilApertureID, value);
             yield return null;
-            elapsedTime += Time.deltaTime;
         }
-
-        // Ensure the final value is set accurately
-        material.SetFloat(pupilApertureID, targetValue);
-
     }
 }

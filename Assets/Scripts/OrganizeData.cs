@@ -84,7 +84,7 @@ public class OrganizeData : MonoBehaviour
         }
         else
         {
-            Debug.LogError("No existing LogEntry found in the XML file.");
+            Debug.LogError("No existing Tag found in the XML file.");
         }
     }
 }

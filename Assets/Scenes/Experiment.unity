@@ -721,6 +721,7 @@ MonoBehaviour:
   RealMaterial: {fileID: 2100000, guid: e57f01019f3b4044992a23a2ac502ea3, type: 2}
   AvatarMaterial: {fileID: 2100000, guid: 1199d1f3cbef8b646b5ae320feee2577, type: 2}
   EyesMaterial: {fileID: 2100000, guid: 2a240b0164f435c47a248e55690ba286, type: 2}
+  organizeData: {fileID: 1242876267}
 --- !u!1 &607141577
 GameObject:
   m_ObjectHideFlags: 0
@@ -1928,6 +1929,7 @@ MonoBehaviour:
   material: {fileID: 2100000, guid: 2a240b0164f435c47a248e55690ba286, type: 2}
   numberOfStimuli: {fileID: 11400000, guid: 5eb295d6fde0ea14ab3f0f74209677f7, type: 2}
   readyToChange: {fileID: 11400000, guid: 5eb295d6fde0ea14ab3f0f74209677f7, type: 2}
+  pupilDataGatherer: {fileID: 1242876264}
   speed: 4
 --- !u!1 &1108341085
 GameObject:
@@ -2235,6 +2237,64 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 171bb70f30a005f4cb62583a2470d1bb, type: 3}
+--- !u!1 &1242876264
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1242876265}
+  - component: {fileID: 1242876266}
+  - component: {fileID: 1242876267}
+  m_Layer: 0
+  m_Name: PupilDataGatherer
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1242876265
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1242876264}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -1.2254603, y: 0.3081025, z: 0.61939526}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 6
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1242876266
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1242876264}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d9bbb14443d315b488503dc2f2a287a4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  organizeData: {fileID: 1242876267}
+--- !u!114 &1242876267
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1242876264}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 09460b52bfa9a4146ab10f9645359ea1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  experimentValues: {fileID: 11400000, guid: 5eb295d6fde0ea14ab3f0f74209677f7, type: 2}
 --- !u!1 &1292249918
 GameObject:
   m_ObjectHideFlags: 0
@@ -3679,6 +3739,7 @@ MonoBehaviour:
   material: {fileID: 2100000, guid: 1199d1f3cbef8b646b5ae320feee2577, type: 2}
   numberOfStimuli: {fileID: 11400000, guid: 5eb295d6fde0ea14ab3f0f74209677f7, type: 2}
   readyToChange: {fileID: 11400000, guid: 5eb295d6fde0ea14ab3f0f74209677f7, type: 2}
+  pupilDataGatherer: {fileID: 1242876264}
   speed: 4
 --- !u!1 &1888398388
 GameObject:
@@ -4847,6 +4908,7 @@ MonoBehaviour:
   material: {fileID: 2100000, guid: e57f01019f3b4044992a23a2ac502ea3, type: 2}
   numberOfStimuli: {fileID: 11400000, guid: 5eb295d6fde0ea14ab3f0f74209677f7, type: 2}
   readyToChange: {fileID: 11400000, guid: 5eb295d6fde0ea14ab3f0f74209677f7, type: 2}
+  pupilDataGatherer: {fileID: 1242876264}
   speed: 4
 --- !u!1 &7250023208709362980
 GameObject:
