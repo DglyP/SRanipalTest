@@ -74,8 +74,9 @@ namespace ViveSR
 
                         //おまけ------------------------------------
                         //エラー確認ViveSR.Error.がWORKなら正常に動いている．（フレームワークの方に内蔵済みだからいらないかも）
-                        if (SRanipal_Eye_API.GetEyeData(ref eye) == ViveSR.Error.WORK)
+                        if (SRanipal_Eye_API.GetEyeData(ref eye) != ViveSR.Error.WORK)
                         {
+                            Debug.Log("///////////////////////////////////////////////////////////////There is an error with the pupil requests");
                             //一応機器が正常に動いてる時の処理をここにかける
                         }
                         //-------------------------------------------
@@ -111,7 +112,6 @@ namespace ViveSR
                             Debug.Log("Right Blink" + RightBlink);
                         }
 
-                        /*
                         //------------------------------
                         //③視線情報--------------------（目をつぶると検知されない）
                         //両目の視線情報が有効なら視線情報を表示origin：起点，direction：レイの方向
@@ -141,13 +141,12 @@ namespace ViveSR
 
                         //④焦点情報--------------------
                         //radius, maxDistance，CombinefocusableLayerは省略可
-                        //if (SRanipal_Eye.Focus(GazeIndex.COMBINE, out CombineRay, out CombineFocus/*, CombineFocusradius, CombineFocusmaxDistance, CombinefocusableLayer))
+                        if (SRanipal_Eye.Focus(GazeIndex.COMBINE, out CombineRay, out CombineFocus/*, CombineFocusradius, CombineFocusmaxDistance, CombinefocusableLayer*/))
                         {
                             Debug.Log("Combine Focus Point" + CombineFocus.point.x + ", " + CombineFocus.point.y + ", " + CombineFocus.point.z);
                         }
                         //------------------------------
 
-                        */
 
                         yield return null;
                     }
