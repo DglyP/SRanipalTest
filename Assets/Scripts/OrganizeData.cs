@@ -12,49 +12,75 @@ public class OrganizeData : MonoBehaviour
 
     private void Start()
     {
-
-        if (experimentValues.currentSession < experimentValues.numberOfSessions)
-        {
-            Debug.Log("Increasing currentSession");
-            experimentValues.currentSession += 1;
-        }
         Debug.Log("Started Scene");
-        logFilePath ="Participant_" + experimentValues.participantID + "_" + "debug_log.xml"; // Initialize logFilePath here
+
+        logFilePath = "Participant_" + experimentValues.participantID + "_debug_log.xml"; // Initialize logFilePath here
 
         bool appendData = File.Exists(logFilePath);
 
         if (appendData)
         {
-            AppendDataToXml("Time", System.DateTime.Now.ToString());
-            AppendDataToXml("Restarted ", experimentValues.participantID.ToString());
-            AppendDataToXml("Session_" , experimentValues.currentSession.ToString());
-            AppendDataToXml("Time", System.DateTime.Now.ToString());
-
+            StartNewSession();
         }
         else
         {
-            //Testing currentSession
             experimentValues.currentSession = 1;
-            XmlWriterSettings writerSettings = new XmlWriterSettings();
-            writerSettings.Indent = true;
-
-            using (XmlWriter xmlWriter = XmlWriter.Create(logFilePath, writerSettings))
-            {
-                xmlWriter.WriteStartElement("ParticipantNumber_" + experimentValues.participantID.ToString());
-
-                xmlWriter.WriteStartElement("Session_" + experimentValues.currentSession.ToString());
-
-                xmlWriter.WriteElementString("Time", System.DateTime.Now.ToString());
-
-                xmlWriter.WriteEndElement();
-
-                xmlWriter.WriteEndElement();
-
-                xmlWriter.Flush();
-                xmlWriter.Close();
-            }
-
+            CreateXmlFile();
             Debug.Log("Debug log written to XML file: " + logFilePath);
+        }
+    }
+
+    private void CreateXmlFile()
+    {
+        XmlWriterSettings writerSettings = new XmlWriterSettings();
+        writerSettings.Indent = true;
+
+        using (XmlWriter xmlWriter = XmlWriter.Create(logFilePath, writerSettings))
+        {
+            xmlWriter.WriteStartElement("ParticipantNumber_" + experimentValues.participantID);
+
+            xmlWriter.WriteStartElement("Session_" + experimentValues.currentSession);
+            xmlWriter.WriteElementString("Time", System.DateTime.Now.ToString());
+            xmlWriter.WriteEndElement();
+
+            xmlWriter.WriteEndElement();
+
+            xmlWriter.Flush();
+        }
+    }
+
+    public void StartNewSession()
+    {
+        // Load the existing XML file
+        XmlDocument xmlDoc = new XmlDocument();
+        xmlDoc.Load(logFilePath);
+
+        // Find the <ParticipantNumber> element
+        XmlElement participantElement = xmlDoc.SelectSingleNode("//ParticipantNumber_" + experimentValues.participantID) as XmlElement;
+
+        if (participantElement != null)
+        {
+            // Create the new session element
+            XmlElement sessionElement = xmlDoc.CreateElement("Session_" + (experimentValues.currentSession + 1));
+
+            // Create the <Time> element and set its value
+            XmlElement timeElement = xmlDoc.CreateElement("Time");
+            timeElement.InnerText = System.DateTime.Now.ToString();
+
+            // Append the <Time> element to the <Session> element
+            sessionElement.AppendChild(timeElement);
+
+            // Append the new session element to the <ParticipantNumber> element
+            participantElement.AppendChild(sessionElement);
+
+            // Save the modified XML file
+            xmlDoc.Save(logFilePath);
+
+            Debug.Log("New session added to XML file: " + logFilePath);
+        }
+        else
+        {
+            Debug.LogError("No ParticipantNumber tag found in the XML file.");
         }
     }
 
@@ -68,7 +94,6 @@ public class OrganizeData : MonoBehaviour
         XmlElement logEntryElement = xmlDoc.SelectSingleNode("//ParticipantNumber_" + experimentValues.participantID + "[last()]") as XmlElement;
         if (logEntryElement != null)
         {
-
             // Create the <PupilData> element
             XmlElement pupilDataElement = xmlDoc.CreateElement("PupilData");
             pupilDataElement.SetAttribute("VariableName", variableName);
@@ -84,7 +109,7 @@ public class OrganizeData : MonoBehaviour
         }
         else
         {
-            Debug.LogError("No existing Tag found in the XML file.");
+            Debug.LogError("No existing tag found in the XML file.");
         }
     }
 }

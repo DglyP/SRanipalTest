@@ -1,0 +1,24 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ParticipantNumber_1>
+  <Session_1>
+    <Time>2023/06/14 18:06:35</Time>
+  </Session_1>
+  <Session_2>
+    <Time>2023/06/14 18:06:39</Time>
+  </Session_2>
+  <PupilData VariableName="Stimuli" VariableValue="Anime" />
+  <PupilData VariableName="Stimuli" VariableValue="Human" />
+  <PupilData VariableName="Stimuli" VariableValue="Eyes" />
+  <Session_2>
+    <Time>2023/06/14 18:07:56</Time>
+  </Session_2>
+  <Session_2>
+    <Time>2023/06/14 18:08:01</Time>
+  </Session_2>
+  <PupilData VariableName="Stimuli" VariableValue="Eyes" />
+  <PupilData VariableName="Stimuli" VariableValue="Anime" />
+  <PupilData VariableName="Stimuli" VariableValue="Eyes" />
+  <Session_2>
+    <Time>2023/06/14 18:09:18</Time>
+  </Session_2>
+</ParticipantNumber_1>
