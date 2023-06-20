@@ -27,31 +27,30 @@ public class OrganizeData_csv : MonoBehaviour
         startNewSession.AppendSession(logFilePathCsv);
     }
 
-    public void AppendDataToCsv(bool isPupilData)
+    public void AppendDataToCsv(bool ignore)
     {
         logFilePathCsv = experimentValues.logFilePathCsv; // Add .csv extension to the file path
 
         // Append the variable data based on isPupilData
-        if (isPupilData)
+        if (ignore)
         {
-            experimentValues.PupilDataActive = true;
+            //experimentValues.PupilDataActive = true;
         }
         else
         {
-            experimentValues.PupilDataActive = false;
+            // Create the data string to be appended to the CSV
+            string data = $"{experimentValues.participantID},{System.DateTime.Now},{experimentValues.currentSession},{experimentValues.minPupilSize},{experimentValues.maxPupilSize},{experimentValues.currentAvatarShown},{experimentValues.StimuliStartSize},{experimentValues.StimuliEndSize},{experimentValues.StimuliPupilSize},{experimentValues.PupilSizeChanging},{experimentValues.PupilDataActive},{experimentValues.UserLeftPupilSize},{experimentValues.UserRightPupilSize}";
+
+            // Append the data to the CSV file
+            using (StreamWriter fileWriter = File.AppendText(logFilePathCsv))
+            {
+                fileWriter.WriteLine(data);
+            }
         }
 
-        // Create the data string to be appended to the CSV
-        string data = $"{experimentValues.participantID},{System.DateTime.Now},{experimentValues.currentSession},{experimentValues.minPupilSize},{experimentValues.maxPupilSize},{experimentValues.currentAvatarShown},{experimentValues.StimuliStartSize},{experimentValues.StimuliEndSize},{experimentValues.StimuliPupilSize},{experimentValues.PupilSizeChanging},{experimentValues.PupilDataActive},{experimentValues.UserLeftPupilSize},{experimentValues.UserRightPupilSize}";
-
-        // Append the data to the CSV file
-        using (StreamWriter fileWriter = File.AppendText(logFilePathCsv))
-        {
-            fileWriter.WriteLine(data);
-        }
     }
 
-    public void TestPupilAppend(bool isPupilData)
+    public void TestPupilAppendCsv(bool isPupilData)
     {
         logFilePathCsv = experimentValues.logFilePathCsv; // Add .csv extension to the file path
 

@@ -101,10 +101,10 @@ namespace ViveSR
                             experimentValues.UserLeftPupilSize = eye.verbose_data.left.pupil_diameter_mm;
                             experimentValues.UserLeftPupilSize = eye.verbose_data.left.pupil_diameter_mm;
 
-                            organizeData.AppendDataToXml("Left_Pupil", (eye.verbose_data.left.pupil_diameter_mm).ToString(), true);
-                            organizeData.AppendDataToXml("Right_Pupil", (eye.verbose_data.right.pupil_diameter_mm).ToString(), true);
+                            //organizeData.AppendDataToXml("Left_Pupil", (eye.verbose_data.left.pupil_diameter_mm).ToString(), true);
+                            //organizeData.AppendDataToXml("Right_Pupil", (eye.verbose_data.right.pupil_diameter_mm).ToString(), true);
 
-                            organizeData_Csv.AppendDataToCsv(true);
+                            organizeData_Csv.AppendDataToCsv(false);
                         }
                         //右の瞳孔位置を取得
                         if (SRanipal_Eye.GetPupilPosition(EyeIndex.RIGHT, out RightPupil))
@@ -178,9 +178,15 @@ namespace ViveSR
                         {
                             if (SRanipal_Eye.GetPupilPosition(EyeIndex.LEFT, out LeftPupil))
                             {
+                                float leftPupilSize = eye.verbose_data.left.pupil_diameter_mm;
+                                float rightPupilSize = eye.verbose_data.right.pupil_diameter_mm;
+
+                                experimentValues.minPupilSize = Mathf.Min(leftPupilSize, rightPupilSize, experimentValues.minPupilSize);
+                                experimentValues.maxPupilSize = Mathf.Max(leftPupilSize, rightPupilSize, experimentValues.maxPupilSize);
 
                                 organizeData.TestPupilAppend(state, (eye.verbose_data.left.pupil_diameter_mm).ToString(), true);
                                 organizeData.TestPupilAppend(state, (eye.verbose_data.right.pupil_diameter_mm).ToString(), true);
+                                organizeData_Csv.AppendDataToCsv(false);
                             }
                         }
                         yield return null;

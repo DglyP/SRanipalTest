@@ -382,7 +382,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 888d88939fcdb1941991c806b5688310, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  organizeData: {fileID: 782548197}
+  organizeDataCsv: {fileID: 782548197}
   experimentValues: {fileID: 11400000, guid: 5eb295d6fde0ea14ab3f0f74209677f7, type: 2}
 --- !u!1 &824692031
 GameObject:
@@ -854,6 +854,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   organizeData: {fileID: 782548194}
   organizeData_Csv: {fileID: 782548197}
+  experimentValues: {fileID: 11400000, guid: 5eb295d6fde0ea14ab3f0f74209677f7, type: 2}
 --- !u!4 &1601316226
 Transform:
   m_ObjectHideFlags: 0

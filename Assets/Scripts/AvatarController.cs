@@ -40,6 +40,7 @@ public class AvatarController : MonoBehaviour
         {
             //Debug.Log("Stopped gathering data");
             StopCoroutine(gatherDataCoroutine);
+            experimentValues.PupilDataActive = false;
             gatherDataCoroutine = null;
         }
     }
@@ -85,11 +86,12 @@ public class AvatarController : MonoBehaviour
         float transitionDuration = speed;
 
         //Debug.Log("Performing transition of pupils");
+        experimentValues.PupilDataActive = true;
         gatherDataCoroutine = StartCoroutine(dataGatherer.GatherData());
 
         yield return new WaitForSeconds(changeTimes.WaitForStartPupilChange);
 
-        organizeData.AppendDataToXml("Starting_at_" + startValue.ToString(), "Target_is_" + targetValue.ToString(), false);
+        //organizeData.AppendDataToXml("Starting_at_" + startValue.ToString(), "Target_is_" + targetValue.ToString(), false);
         organizeData_csv.AppendDataToCsv(false);
 
         yield return StartCoroutine(ChangePupilSize(startValue, targetValue, transitionDuration, material));
@@ -128,13 +130,19 @@ public class AvatarController : MonoBehaviour
             float t = Mathf.Clamp01(timeElapsed / duration);
             float value = Mathf.Lerp(startValue, targetValue, t);
             material.SetFloat(pupilApertureID, value);
-
             experimentValues.StimuliPupilSize = value;
-            organizeData_csv.AppendDataToCsv(false);
-
+            if (duration < 1f)
+            {
+                organizeData_csv.AppendDataToCsv(true);
+            }
+            else
+            {
+                organizeData_csv.AppendDataToCsv(false);
+                //Debug.Log(value);
+            }
             yield return null;
         }
         experimentValues.PupilSizeChanging = false;
-        organizeData.AppendDataToXml("Pupil_of_stimuli_is", targetValue.ToString(), true);
+        //organizeData.AppendDataToXml("Pupil_of_stimuli_is", targetValue.ToString(), true);
     }
 }

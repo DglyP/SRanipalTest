@@ -1942,12 +1942,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   EyesWithPupil: {fileID: 819002826}
   material: {fileID: 2100000, guid: 2a240b0164f435c47a248e55690ba286, type: 2}
-  numberOfStimuli: {fileID: 11400000, guid: 5eb295d6fde0ea14ab3f0f74209677f7, type: 2}
-  readyToChange: {fileID: 11400000, guid: 5eb295d6fde0ea14ab3f0f74209677f7, type: 2}
+  experimentValues: {fileID: 11400000, guid: 5eb295d6fde0ea14ab3f0f74209677f7, type: 2}
   changeTimes: {fileID: 11400000, guid: 5eb295d6fde0ea14ab3f0f74209677f7, type: 2}
   pupilDataGatherer: {fileID: 1242876264}
   organizeData: {fileID: 1242876267}
-  organizeData_Csv: {fileID: 1242876270}
+  organizeData_csv: {fileID: 1242876270}
   speed: 4
 --- !u!114 &1029645711
 MonoBehaviour:
@@ -2393,6 +2392,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   organizeData: {fileID: 1242876267}
   organizeData_Csv: {fileID: 1242876270}
+  experimentValues: {fileID: 11400000, guid: 5eb295d6fde0ea14ab3f0f74209677f7, type: 2}
 --- !u!114 &1242876267
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2433,7 +2433,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 888d88939fcdb1941991c806b5688310, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  organizeData: {fileID: 1242876270}
+  organizeDataCsv: {fileID: 1242876270}
   experimentValues: {fileID: 11400000, guid: 5eb295d6fde0ea14ab3f0f74209677f7, type: 2}
 --- !u!114 &1242876270
 MonoBehaviour:
@@ -2634,7 +2634,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 114214629311031788, guid: f676e25d0fcd1ec4fa22af3017316de9, type: 3}
       propertyPath: EnableEyeVersion
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 114214629311031788, guid: f676e25d0fcd1ec4fa22af3017316de9, type: 3}
       propertyPath: EnableEyeDataCallback
@@ -3892,12 +3892,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   EyesWithPupil: {fileID: 2013330543}
   material: {fileID: 2100000, guid: 1199d1f3cbef8b646b5ae320feee2577, type: 2}
-  numberOfStimuli: {fileID: 11400000, guid: 5eb295d6fde0ea14ab3f0f74209677f7, type: 2}
-  readyToChange: {fileID: 11400000, guid: 5eb295d6fde0ea14ab3f0f74209677f7, type: 2}
+  experimentValues: {fileID: 11400000, guid: 5eb295d6fde0ea14ab3f0f74209677f7, type: 2}
   changeTimes: {fileID: 11400000, guid: 5eb295d6fde0ea14ab3f0f74209677f7, type: 2}
   pupilDataGatherer: {fileID: 1242876264}
   organizeData: {fileID: 1242876267}
-  organizeData_Csv: {fileID: 1242876270}
+  organizeData_csv: {fileID: 1242876270}
   speed: 4
 --- !u!1 &1888398388
 GameObject:
@@ -5156,12 +5155,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   EyesWithPupil: {fileID: 2113216952}
   material: {fileID: 2100000, guid: e57f01019f3b4044992a23a2ac502ea3, type: 2}
-  numberOfStimuli: {fileID: 11400000, guid: 5eb295d6fde0ea14ab3f0f74209677f7, type: 2}
-  readyToChange: {fileID: 11400000, guid: 5eb295d6fde0ea14ab3f0f74209677f7, type: 2}
+  experimentValues: {fileID: 11400000, guid: 5eb295d6fde0ea14ab3f0f74209677f7, type: 2}
   changeTimes: {fileID: 11400000, guid: 5eb295d6fde0ea14ab3f0f74209677f7, type: 2}
   pupilDataGatherer: {fileID: 1242876264}
   organizeData: {fileID: 1242876267}
-  organizeData_Csv: {fileID: 1242876270}
+  organizeData_csv: {fileID: 1242876270}
   speed: 4
 --- !u!1 &7250023208709362980
 GameObject:

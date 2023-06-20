@@ -140,7 +140,7 @@ namespace ViveSR
                     List<string> valueList = randomizedDictionary.Values.ToList();
 
                     // Log the list of keys
-                    organizeData.AppendDataToXml("Avatar_List_" + string.Join("-", keyList), "Avatar_Values_" + (string.Join("-", valueList)), false);
+                    //organizeData.AppendDataToXml("Avatar_List_" + string.Join("-", keyList), "Avatar_Values_" + (string.Join("-", valueList)), false);
                     //Debug.Log("List of Keys: " + string.Join("  -  ", keyList));
                     //Debug.Log("List of Values: " + string.Join("  -  ", valueList));
                 }
@@ -156,7 +156,7 @@ namespace ViveSR
                         case var k when k.Contains("real"):
                             //Debug.Log("Making Human");
                             realHuman.gameObject.SetActive(true);
-                            organizeData.AppendDataToXml("Stimuli", "Human", false);
+                            //organizeData.AppendDataToXml("Stimuli", "Human", false);
                             experimentValues.currentAvatarShown = "Human";
                             organizeData_Csv.AppendDataToCsv(false);
                             PrepareModel(realHuman, randomizedDictionary[currentAvatar], RealMaterial);
@@ -164,7 +164,7 @@ namespace ViveSR
                         case var k when k.Contains("avatar"):
                             //Debug.Log("Making Anime");
                             avatar.gameObject.SetActive(true);
-                            organizeData.AppendDataToXml("Stimuli", "Anime", false);
+                            //organizeData.AppendDataToXml("Stimuli", "Anime", false);
                             experimentValues.currentAvatarShown = "Anime";
                             organizeData_Csv.AppendDataToCsv(false);
                             PrepareModel(avatar, randomizedDictionary[currentAvatar], AvatarMaterial);
@@ -172,7 +172,7 @@ namespace ViveSR
                         case var k when k.Contains("eyes"):
                             //Debug.Log("Making Eyes");
                             eyes.gameObject.SetActive(true);
-                            organizeData.AppendDataToXml("Stimuli", "Eyes", false);
+                           // organizeData.AppendDataToXml("Stimuli", "Eyes", false);
                             experimentValues.currentAvatarShown = "Eyes";
                             organizeData_Csv.AppendDataToCsv(false);
                             PrepareModel(eyes, randomizedDictionary[currentAvatar], EyesMaterial);

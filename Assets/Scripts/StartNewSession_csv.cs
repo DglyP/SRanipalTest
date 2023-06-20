@@ -6,7 +6,7 @@ using UnityEngine;
 
 public class StartNewSession_csv : MonoBehaviour
 {
-    public OrganizeData_csv organizeData;
+    public OrganizeData_csv organizeDataCsv;
     public ExperimentValues experimentValues;
 
     private string logFilePathCsv; // Path to the XML log file
@@ -26,7 +26,7 @@ public class StartNewSession_csv : MonoBehaviour
         }
         else
         {
-            organizeData.CreateCsvFile();
+            organizeDataCsv.CreateCsvFile();
             // Debug.Log("Debug log written to CSV file: " + logFilePathCsv);
         }
     }
@@ -34,6 +34,7 @@ public class StartNewSession_csv : MonoBehaviour
     public void AppendSession(string logFilePathCsv)
     {
         // Load the existing CSV file
+        /*
         using (StreamWriter fileWriter = File.AppendText(logFilePathCsv))
         {
             // Write the session information
@@ -41,5 +42,7 @@ public class StartNewSession_csv : MonoBehaviour
             fileWriter.WriteLine($"Session,{experimentValues.currentSession}");
             fileWriter.WriteLine($"Time,{System.DateTime.Now}");
         }
+        */
+        organizeDataCsv.AppendDataToCsv(false);
     }
 }
