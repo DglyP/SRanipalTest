@@ -13,7 +13,13 @@ MonoBehaviour:
   m_Name: ExperimentValues
   m_EditorClassIdentifier: 
   participantID: 1
-  currentSession: 2
-  numberOfSessions: 20
-  stimuliAmount: 3
+  currentSession: 3
+  currentAvatarShown: Eyes
+  numberOfSessions: 3
+  stimuliAmount: 9
   stageReady: 1
+  logFilePath: Participant_1_debug_log.xml
+  logFilePathCsv: Participant_1_debug_log
+  WaitForPupilToAdjust: 2
+  DataGatheringTime: 9
+  WaitForStartPupilChange: 2

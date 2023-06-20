@@ -11,6 +11,8 @@ namespace ViveSR
             public class DataGatherer : MonoBehaviour
             {
                 public OrganizeData organizeData;
+                public OrganizeData_csv organizeData_Csv;
+                public ExperimentValues experimentValues;
                 //⓪取得呼び出し-----------------------------
 
                 //呼び出したデータ格納用の関数
@@ -70,48 +72,64 @@ namespace ViveSR
                 {
                     while (true)
                     {
-                        Debug.Log("Gathering data now");
+                        //Debug.Log("Gathering data now");
 
                         //おまけ------------------------------------
                         //エラー確認ViveSR.Error.がWORKなら正常に動いている．（フレームワークの方に内蔵済みだからいらないかも）
-                        if (SRanipal_Eye_API.GetEyeData(ref eye) != ViveSR.Error.WORK)
+                        if (SRanipal_Eye_API.GetEyeData(ref eye) == ViveSR.Error.WORK)
                         {
-                            Debug.Log("///////////////////////////////////////////////////////////////There is an error with the pupil requests");
+                            //Debug.Log("///////////////////////////////////////////////////////////////There is an error with the pupil requests");
                             //一応機器が正常に動いてる時の処理をここにかける
                         }
                         //-------------------------------------------
                         //⓪取得呼び出し-----------------------------
                         SRanipal_Eye_API.GetEyeData(ref eye);
+
+
                         //-------------------------------------------
                         //①瞳孔位置---------------------（HMDを被ると検知される，目をつぶっても位置は返すが，HMDを外すとと止まる．目をつぶってるときはどこの値返してんのか謎．一応まぶた貫通してるっぽい？？？）
                         //左の瞳孔位置を取得
                         if (SRanipal_Eye.GetPupilPosition(EyeIndex.LEFT, out LeftPupil))
                         {
-                            // Left pupil position is valid, do something with it
-                            Debug.Log("Left Pupil: " + LeftPupil.x + ", " + LeftPupil.y);
-                            organizeData.AppendDataToXml("Left Pupil", (LeftPupil.x).ToString());
+                            /*   // Left pupil position is valid, do something with it
+                               Debug.Log("Left Pupil: " + LeftPupil.x + ", " + LeftPupil.y);
+                               Debug.Log("Left Pupil: " + eye.verbose_data.left.pupil_diameter_mm);
+
+                               Debug.Log("Right Pupil: " + eye.verbose_data.right.pupil_diameter_mm);
+                            */
+
+                            experimentValues.UserLeftPupilSize = eye.verbose_data.left.pupil_diameter_mm;
+                            experimentValues.UserLeftPupilSize = eye.verbose_data.left.pupil_diameter_mm;
+
+                            organizeData.AppendDataToXml("Left_Pupil", (eye.verbose_data.left.pupil_diameter_mm).ToString(), true);
+                            organizeData.AppendDataToXml("Right_Pupil", (eye.verbose_data.right.pupil_diameter_mm).ToString(), true);
+
+                            organizeData_Csv.AppendDataToCsv(true);
                         }
                         //右の瞳孔位置を取得
                         if (SRanipal_Eye.GetPupilPosition(EyeIndex.RIGHT, out RightPupil))
                         {
                             //値が有効なら右の瞳孔位置を表示
-                            Debug.Log("Right Pupil" + RightPupil.x + ", " + RightPupil.y);
+                           // Debug.Log("Right Pupil" + RightPupil.x + ", " + RightPupil.y);
                         }
+
                         //------------------------------
                         //②まぶたの開き具合------------（HMDを被ってなくても1が返ってくる？？謎）
                         //左のまぶたの開き具合を取得
                         if (SRanipal_Eye.GetEyeOpenness(EyeIndex.LEFT, out LeftBlink, eye))
                         {
                             //値が有効なら左のまぶたの開き具合を表示
-                            Debug.Log("Left Blink" + LeftBlink);
+                            //organizeData.AppendDataToXml("BLINK", "-1");
                         }
                         //右のまぶたの開き具合を取得
                         if (SRanipal_Eye.GetEyeOpenness(EyeIndex.RIGHT, out RightBlink, eye))
                         {
                             //値が有効なら右のまぶたの開き具合を表示
-                            Debug.Log("Right Blink" + RightBlink);
+                           // organizeData.AppendDataToXml("BLINK", "-1");
                         }
 
+
+                        /*
                         //------------------------------
                         //③視線情報--------------------（目をつぶると検知されない）
                         //両目の視線情報が有効なら視線情報を表示origin：起点，direction：レイの方向
@@ -141,16 +159,34 @@ namespace ViveSR
 
                         //④焦点情報--------------------
                         //radius, maxDistance，CombinefocusableLayerは省略可
-                        if (SRanipal_Eye.Focus(GazeIndex.COMBINE, out CombineRay, out CombineFocus/*, CombineFocusradius, CombineFocusmaxDistance, CombinefocusableLayer*/))
+                        //if (SRanipal_Eye.Focus(GazeIndex.COMBINE, out CombineRay, out CombineFocus/*, CombineFocusradius, CombineFocusmaxDistance, CombinefocusableLayer))
                         {
                             Debug.Log("Combine Focus Point" + CombineFocus.point.x + ", " + CombineFocus.point.y + ", " + CombineFocus.point.z);
                         }
                         //------------------------------
-
+                        */
 
                         yield return null;
                     }
                 }
+
+                public IEnumerator TestPupils(string state)
+                {
+                    while (true)
+                    {
+                        if (SRanipal_Eye_API.GetEyeData(ref eye) == ViveSR.Error.WORK)
+                        {
+                            if (SRanipal_Eye.GetPupilPosition(EyeIndex.LEFT, out LeftPupil))
+                            {
+
+                                organizeData.TestPupilAppend(state, (eye.verbose_data.left.pupil_diameter_mm).ToString(), true);
+                                organizeData.TestPupilAppend(state, (eye.verbose_data.right.pupil_diameter_mm).ToString(), true);
+                            }
+                        }
+                        yield return null;
+                    }
+                }
+
             }
         }
     }

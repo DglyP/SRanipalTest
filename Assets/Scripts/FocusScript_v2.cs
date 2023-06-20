@@ -6,13 +6,13 @@ using UnityEngine.SceneManagement;
 
 namespace ViveSR.anipal.Eye
 {
-    public class FocusScript : MonoBehaviour
+    public class FocusScrip_v2t : MonoBehaviour
     {
         private FocusInfo FocusInfo;
         public ExperimentValues experimentValues;
         private readonly float MaxDistance = 20;
         private readonly GazeIndex[] GazePriority = new GazeIndex[] { GazeIndex.COMBINE, GazeIndex.LEFT, GazeIndex.RIGHT };
-        private static EyeData eyeData = new EyeData();
+        private static EyeData_v2 eyeData = new EyeData_v2();
         private bool eye_callback_registered = false;
         private bool isLookingAtDartboard = false;
         private float lookTimer = 0f;
@@ -33,12 +33,12 @@ namespace ViveSR.anipal.Eye
 
             if (SRanipal_Eye_Framework.Instance.EnableEyeDataCallback == true && eye_callback_registered == false)
             {
-                SRanipal_Eye.WrapperRegisterEyeDataCallback(Marshal.GetFunctionPointerForDelegate((SRanipal_Eye.CallbackBasic)EyeCallback));
+                SRanipal_Eye_v2.WrapperRegisterEyeDataCallback(Marshal.GetFunctionPointerForDelegate((SRanipal_Eye_v2.CallbackBasic)EyeCallback));
                 eye_callback_registered = true;
             }
             else if (SRanipal_Eye_Framework.Instance.EnableEyeDataCallback == false && eye_callback_registered == true)
             {
-                SRanipal_Eye.WrapperUnRegisterEyeDataCallback(Marshal.GetFunctionPointerForDelegate((SRanipal_Eye.CallbackBasic)EyeCallback));
+                SRanipal_Eye_v2.WrapperUnRegisterEyeDataCallback(Marshal.GetFunctionPointerForDelegate((SRanipal_Eye_v2.CallbackBasic)EyeCallback));
                 eye_callback_registered = false;
             }
 
@@ -52,9 +52,9 @@ namespace ViveSR.anipal.Eye
                 int dart_board_layer_id = LayerMask.NameToLayer("NoReflection");
                 bool eye_focus;
                 if (eye_callback_registered)
-                    eye_focus = SRanipal_Eye.Focus(index, out GazeRay, out FocusInfo, 0, MaxDistance, (1 << dart_board_layer_id), eyeData);
+                    eye_focus = SRanipal_Eye_v2.Focus(index, out GazeRay, out FocusInfo, 0, MaxDistance, (1 << dart_board_layer_id), eyeData);
                 else
-                    eye_focus = SRanipal_Eye.Focus(index, out GazeRay, out FocusInfo, 0, MaxDistance, (1 << dart_board_layer_id));
+                    eye_focus = SRanipal_Eye_v2.Focus(index, out GazeRay, out FocusInfo, 0, MaxDistance, (1 << dart_board_layer_id));
 
                 if (eye_focus)
                 {
@@ -104,11 +104,11 @@ namespace ViveSR.anipal.Eye
         {
             if (eye_callback_registered == true)
             {
-                SRanipal_Eye.WrapperUnRegisterEyeDataCallback(Marshal.GetFunctionPointerForDelegate((SRanipal_Eye.CallbackBasic)EyeCallback));
+                SRanipal_Eye_v2.WrapperUnRegisterEyeDataCallback(Marshal.GetFunctionPointerForDelegate((SRanipal_Eye_v2.CallbackBasic)EyeCallback));
                 eye_callback_registered = false;
             }
         }
-        private static void EyeCallback(ref EyeData eye_data)
+        private static void EyeCallback(ref EyeData_v2 eye_data)
         {
             eyeData = eye_data;
         }
