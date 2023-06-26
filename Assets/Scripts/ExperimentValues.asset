@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 00a9b43e4926b4d479673081e955acda, type: 3}
   m_Name: ExperimentValues
   m_EditorClassIdentifier: 
-  participantID: 1
+  participantID: 2
   currentSession: 3
   currentAvatarShown: Eyes
   numberOfSessions: 3
@@ -23,3 +23,12 @@ MonoBehaviour:
   WaitForPupilToAdjust: 2
   DataGatheringTime: 9
   WaitForStartPupilChange: 2
+  minPupilSize: 9
+  maxPupilSize: 0
+  StimuliStartSize: 0
+  StimuliEndSize: 0
+  StimuliPupilSize: 0
+  PupilSizeChanging: 0
+  PupilDataActive: 0
+  UserLeftPupilSize: 0
+  UserRightPupilSize: 0

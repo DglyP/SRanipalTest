@@ -1510,7 +1510,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8131165616503585759, guid: 171bb70f30a005f4cb62583a2470d1bb, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -0.0001
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8131165616503585759, guid: 171bb70f30a005f4cb62583a2470d1bb, type: 3}
       propertyPath: m_LocalPosition.y
@@ -2311,7 +2311,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8131165616503585759, guid: 171bb70f30a005f4cb62583a2470d1bb, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 1.0658141e-16
+      value: 0.0362
       objectReference: {fileID: 0}
     - target: {fileID: 8131165616503585759, guid: 171bb70f30a005f4cb62583a2470d1bb, type: 3}
       propertyPath: m_LocalRotation.w
@@ -2634,7 +2634,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 114214629311031788, guid: f676e25d0fcd1ec4fa22af3017316de9, type: 3}
       propertyPath: EnableEyeVersion
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 114214629311031788, guid: f676e25d0fcd1ec4fa22af3017316de9, type: 3}
       propertyPath: EnableEyeDataCallback
@@ -3817,7 +3817,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1888398394}
-  m_LocalRotation: {x: 0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0.05129639, y: -0.0069593033, z: 0.06858459}
   m_LocalScale: {x: 0.8186672, y: 0.7667887, z: 0.29608673}
   m_Children:
