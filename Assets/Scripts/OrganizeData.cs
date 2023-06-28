@@ -55,7 +55,7 @@ public class OrganizeData : MonoBehaviour
                 dataElement.SetAttribute(variableName, variableValue);
                 if (lastAvatarStimuliNode == null)
                 {
-                    Debug.Log("That tag doesn't exist");
+                    //Debug.Log("That tag doesn't exist");
                     sessionElement.AppendChild(dataElement);
                 }
                 else
@@ -109,7 +109,7 @@ public class OrganizeData : MonoBehaviour
                 dataElement.SetAttribute(variableName, variableValue);
                 if (lastAvatarStimuliNode == null)
                 {
-                    Debug.Log("That tag doesn't exist");
+                    //Debug.Log("That tag doesn't exist");
                     sessionElement.AppendChild(dataElement);
                 }
                 else

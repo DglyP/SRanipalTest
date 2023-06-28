@@ -67,7 +67,7 @@ public class AvatarController : MonoBehaviour
             rendererComponent.enabled = true; // Enable rendering
         }
 
-        Debug.Log("Waiting for 2 seconds before gathering data");
+        //Debug.Log("Waiting for 2 seconds before gathering data");
         yield return new WaitForSeconds(changeTimes.WaitForPupilToAdjust);
        // Debug.Log("2 Seconds passed, now gathering data");
 
@@ -142,6 +142,9 @@ public class AvatarController : MonoBehaviour
             }
             yield return null;
         }
+
+        material.SetFloat(pupilApertureID, targetValue);
+        experimentValues.StimuliPupilSize = targetValue;
         experimentValues.PupilSizeChanging = false;
         //organizeData.AppendDataToXml("Pupil_of_stimuli_is", targetValue.ToString(), true);
     }

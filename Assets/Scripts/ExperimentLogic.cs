@@ -14,7 +14,7 @@ namespace ViveSR
         {
             public class ExperimentLogic : MonoBehaviour
             {
-                EyeData eye;
+                EyeData_v2 eye;
 
                 public ExperimentValues experimentValues;
                 private int currentStimuli = 0;
@@ -30,6 +30,7 @@ namespace ViveSR
                 public Material AvatarMaterial;
                 public Material EyesMaterial;
                 List<string> keyList;
+                Dictionary<string, string> processedDictionary;
                 Dictionary<string, string> randomizedDictionary;
                 private bool isCoroutineRunning = false;
                 private bool coroutineDone;
@@ -97,6 +98,25 @@ namespace ViveSR
                     return randomizedDictionary;
                 }
 
+                Dictionary<string, string> MultiplyDictionary(Dictionary<string, string> dictionary, int multiplier)
+                {
+                    Dictionary<string, string> multipliedDictionary = new Dictionary<string, string>();
+                    int uniqueIdentifier = 0;
+
+                    foreach (KeyValuePair<string, string> pair in dictionary)
+                    {
+                        for (int i = 0; i < multiplier; i++)
+                        {
+                            string key = pair.Key + "_" + uniqueIdentifier.ToString();
+                            multipliedDictionary.Add(key, pair.Value);
+                            uniqueIdentifier++;
+                        }
+                    }
+
+                    return multipliedDictionary;
+                }
+
+
                 List<string> CreateListOfAvatars(string[] avatarList, string[] irisList, int numberOfStimuli)
                 {
                     // Print the randomized dictionary
@@ -121,7 +141,22 @@ namespace ViveSR
                     experimentValues.stimuliAmount = experimentValues.stimuliAmount == 0 ? 9 : experimentValues.stimuliAmount;
                     experimentValues.stageReady = true;
 
-                    if (SRanipal_Eye_API.GetEyeData(ref eye) != ViveSR.Error.WORK)
+                    Dictionary<string, string> originalDictionary = new Dictionary<string, string>();
+
+                    originalDictionary.Add("real_0", "0");
+                    originalDictionary.Add("real_1", "0.5");
+                    originalDictionary.Add("real_2", "1");
+                    originalDictionary.Add("eyes_3", "0");
+                    originalDictionary.Add("eyes_4", "0.5");
+                    originalDictionary.Add("eyes_5", "1");
+                    originalDictionary.Add("avatar_6", "0");
+                    originalDictionary.Add("avatar_7", "0.5");
+                    originalDictionary.Add("avatar_8", "1");
+
+                    int stimuliAmount = (experimentValues.stimuliAmount / 9); // Get the value of stimuliAmount
+                    processedDictionary = MultiplyDictionary(originalDictionary, stimuliAmount);
+
+                    if (SRanipal_Eye_API.GetEyeData_v2(ref eye) != ViveSR.Error.WORK)
                     {
                         // Change the content of the text
                         textComponent.text = "Please check the eye-tracker";
@@ -129,20 +164,31 @@ namespace ViveSR
                     }
                     else
                     {
-                        textComponent.gameObject.SetActive(true);
+                        textComponent.gameObject.SetActive(false);
                     }
 
-                    string[] avatarList = { "real", "avatar", "eyes" };
-                    string[] irisList = { "1", "0", "0.5" };
+                    //string[] avatarList = { "real", "avatar", "eyes" };
+                    //string[] irisList = { "1", "0", "0.5" };
 
-                    keyList = CreateListOfAvatars(avatarList, irisList, experimentValues.stimuliAmount);
+                    //keyList = CreateListOfAvatars(avatarList, irisList, experimentValues.stimuliAmount);
 
-                    List<string> valueList = randomizedDictionary.Values.ToList();
+                    List<string> randomAvatarList = processedDictionary.Keys.ToList();
+                    ShuffleList(randomAvatarList); // Shuffle the list of avatars
+                    keyList = randomAvatarList;
 
+                    List<string> valueList = new List<string>();
+                    foreach (string key in randomAvatarList)
+                    {
+                        string value = processedDictionary[key];
+                        valueList.Add(value);
+                    }
+
+
+                    Debug.Log("List of Keys: " + string.Join("  -  ", keyList));
+                    Debug.Log("List of Values: " + string.Join("  -  ", valueList));
                     // Log the list of keys
                     //organizeData.AppendDataToXml("Avatar_List_" + string.Join("-", keyList), "Avatar_Values_" + (string.Join("-", valueList)), false);
-                    //Debug.Log("List of Keys: " + string.Join("  -  ", keyList));
-                    //Debug.Log("List of Values: " + string.Join("  -  ", valueList));
+                    Debug.Log("List of Values: " + string.Join("  -  ", valueList));
                 }
 
                 void ChangeAvatar()
@@ -159,7 +205,7 @@ namespace ViveSR
                             //organizeData.AppendDataToXml("Stimuli", "Human", false);
                             experimentValues.currentAvatarShown = "Human";
                             organizeData_Csv.AppendDataToCsv(false);
-                            PrepareModel(realHuman, randomizedDictionary[currentAvatar], RealMaterial);
+                            PrepareModel(realHuman, processedDictionary[currentAvatar], RealMaterial);
                             break;
                         case var k when k.Contains("avatar"):
                             //Debug.Log("Making Anime");
@@ -167,7 +213,7 @@ namespace ViveSR
                             //organizeData.AppendDataToXml("Stimuli", "Anime", false);
                             experimentValues.currentAvatarShown = "Anime";
                             organizeData_Csv.AppendDataToCsv(false);
-                            PrepareModel(avatar, randomizedDictionary[currentAvatar], AvatarMaterial);
+                            PrepareModel(avatar, processedDictionary[currentAvatar], AvatarMaterial);
                             break;
                         case var k when k.Contains("eyes"):
                             //Debug.Log("Making Eyes");
@@ -175,7 +221,7 @@ namespace ViveSR
                            // organizeData.AppendDataToXml("Stimuli", "Eyes", false);
                             experimentValues.currentAvatarShown = "Eyes";
                             organizeData_Csv.AppendDataToCsv(false);
-                            PrepareModel(eyes, randomizedDictionary[currentAvatar], EyesMaterial);
+                            PrepareModel(eyes, processedDictionary[currentAvatar], EyesMaterial);
                             break;
                         default:
                             // Handle any other case, if needed

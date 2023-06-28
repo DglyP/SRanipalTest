@@ -22,7 +22,7 @@ namespace ViveSR
 
                 private void Start()
                 {
-                    Debug.Log("Started Script of Data");
+                    //Debug.Log("Started Script of Data");
                 }
 
                 public IEnumerator GatherData()
