@@ -6,7 +6,7 @@ using UnityEngine.SceneManagement;
 
 namespace ViveSR.anipal.Eye
 {
-    public class FocusScrip_v2t : MonoBehaviour
+    public class FocusScript_v2 : MonoBehaviour
     {
         private FocusInfo FocusInfo;
         public ExperimentValues experimentValues;

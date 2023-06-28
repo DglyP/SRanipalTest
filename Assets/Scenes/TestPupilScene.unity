@@ -538,7 +538,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 114214629311031788, guid: f676e25d0fcd1ec4fa22af3017316de9, type: 3}
       propertyPath: EnableEyeVersion
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 114214629311031788, guid: f676e25d0fcd1ec4fa22af3017316de9, type: 3}
       propertyPath: EnableEyeDataCallback

@@ -164,6 +164,7 @@ GameObject:
   m_Component:
   - component: {fileID: 270098605}
   - component: {fileID: 270098606}
+  - component: {fileID: 270098604}
   m_Layer: 0
   m_Name: FocusGameObject
   m_TagString: Untagged
@@ -171,6 +172,19 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!114 &270098604
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 270098603}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 440434ed3b3e9954ca150336c438c0a9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  experimentValues: {fileID: 11400000, guid: 5eb295d6fde0ea14ab3f0f74209677f7, type: 2}
 --- !u!4 &270098605
 Transform:
   m_ObjectHideFlags: 0
@@ -192,7 +206,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 270098603}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 5a65f2cc27b0b8440964929d3c4ba581, type: 3}
   m_Name: 
@@ -715,7 +729,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1979270957677204, guid: 365dc3c335a5e88408e7792556958cfc, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4082760537063126, guid: 365dc3c335a5e88408e7792556958cfc, type: 3}
       propertyPath: m_RootOrder
@@ -1398,7 +1412,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 114214629311031788, guid: f676e25d0fcd1ec4fa22af3017316de9, type: 3}
       propertyPath: EnableEyeVersion
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 114214629311031788, guid: f676e25d0fcd1ec4fa22af3017316de9, type: 3}
       propertyPath: EnableEyeDataCallback
