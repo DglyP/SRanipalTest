@@ -18,6 +18,8 @@ public class OrganizeData : MonoBehaviour
     public void CreateXmlFile()
     {
         experimentValues.currentSession = 1;
+        experimentValues.maxPupilSize = 1;
+        experimentValues.minPupilSize = 9;
         logFilePath = experimentValues.logFilePath;
         XmlWriterSettings writerSettings = new XmlWriterSettings();
         writerSettings.Indent = true;

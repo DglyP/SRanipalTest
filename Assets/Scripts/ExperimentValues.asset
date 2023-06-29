@@ -14,21 +14,21 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   participantID: 2
   currentSession: 2
-  currentAvatarShown: Human
+  currentAvatarShown: Eyes
   numberOfSessions: 9
   stimuliAmount: 9
-  stageReady: 1
+  stageReady: 0
   logFilePath: Participant_2_debug_log.xml
   logFilePathCsv: Participant_2_debug_log.csv
   WaitForPupilToAdjust: 2
-  DataGatheringTime: 9
+  DataGatheringTime: 10
   WaitForStartPupilChange: 2
   minPupilSize: 1.9973297
-  maxPupilSize: 5.6658936
-  StimuliStartSize: 0.5
-  StimuliEndSize: 0.5
+  maxPupilSize: 5.7147827
+  StimuliStartSize: 0
+  StimuliEndSize: 1
   StimuliPupilSize: 0.5
   PupilSizeChanging: 0
   PupilDataActive: 0
-  UserLeftPupilSize: 3.593872
-  UserRightPupilSize: 3.5328827
+  UserLeftPupilSize: -1
+  UserRightPupilSize: -1
