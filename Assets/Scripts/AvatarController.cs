@@ -19,7 +19,7 @@ public class AvatarController : MonoBehaviour
     public OrganizeData organizeData;
     public OrganizeData_csv organizeData_csv;
 
-    private int pupilApertureID;
+    public int pupilApertureID;
     public float speed = 4f;
 
     private Coroutine gatherDataCoroutine;
@@ -78,6 +78,7 @@ public class AvatarController : MonoBehaviour
         pupilApertureID = Shader.PropertyToID("Vector1_FEA38ABB");
 
         float startValue = material.GetFloat(pupilApertureID);
+        startValue = FixPupilSize(startValue);
         float targetValue = GetNewPupilSize(startValue);
 
         experimentValues.StimuliStartSize = startValue;
@@ -104,18 +105,42 @@ public class AvatarController : MonoBehaviour
         StopGatherDataCoroutine();
     }
 
-    private float GetNewPupilSize(float currentValue)
+    private float FixPupilSize(float startValue)
     {
-        if (currentValue < 0.5f)
+        if (startValue < 0.1f)
         {
-            return 1f;
+            Debug.Log("the current value is " + startValue + " so will be changed to 0");
+            return 0f;
         }
-        else if (currentValue == 0.5f)
+        else if (startValue < 0.7f)
         {
+            Debug.Log("the current value is " + startValue + " so will be changed to 0.5");
             return 0.5f;
         }
         else
         {
+            Debug.Log("the current value is " + startValue + " so will be changed to 1");
+            return 1f;
+        }
+    }
+
+    private float GetNewPupilSize(float currentValue)
+    {
+        if (currentValue < 0.1f)
+        {
+            Debug.Log("the current value is " + currentValue + " so 1 will be my target");
+            return 1f;
+        }
+        else if (currentValue < 0.7f)
+        {
+
+            Debug.Log("the current value is " + currentValue + " so 0.5 will be my target");
+            return 0.5f;
+        }
+        else
+        {
+
+            Debug.Log("the current value is " + currentValue + " so 0 will be my target");
             return 0f;
         }
     }
@@ -133,6 +158,7 @@ public class AvatarController : MonoBehaviour
             experimentValues.StimuliPupilSize = value;
             if (duration < 1f)
             {
+                //True to ignore the append
                 organizeData_csv.AppendDataToCsv(true);
             }
             else
@@ -144,7 +170,6 @@ public class AvatarController : MonoBehaviour
         }
 
         material.SetFloat(pupilApertureID, targetValue);
-        experimentValues.StimuliPupilSize = targetValue;
         experimentValues.PupilSizeChanging = false;
         //organizeData.AppendDataToXml("Pupil_of_stimuli_is", targetValue.ToString(), true);
     }

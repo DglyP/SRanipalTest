@@ -37,7 +37,7 @@ namespace ViveSR
                 private bool instructionsGiven;
 
                 public OrganizeData organizeData;
-                public OrganizeData_csv organizeData_Csv;
+                public OrganizeData_csv organizeData_csv;
 
                 // Fisher-Yates randomization to shuffle a list
                 private void ShuffleList<T>(List<T> list)
@@ -188,7 +188,6 @@ namespace ViveSR
                     Debug.Log("List of Values: " + string.Join("  -  ", valueList));
                     // Log the list of keys
                     //organizeData.AppendDataToXml("Avatar_List_" + string.Join("-", keyList), "Avatar_Values_" + (string.Join("-", valueList)), false);
-                    Debug.Log("List of Values: " + string.Join("  -  ", valueList));
                 }
 
                 void ChangeAvatar()
@@ -204,7 +203,7 @@ namespace ViveSR
                             realHuman.gameObject.SetActive(true);
                             //organizeData.AppendDataToXml("Stimuli", "Human", false);
                             experimentValues.currentAvatarShown = "Human";
-                            organizeData_Csv.AppendDataToCsv(false);
+                            organizeData_csv.AppendDataToCsv(false);
                             PrepareModel(realHuman, processedDictionary[currentAvatar], RealMaterial);
                             break;
                         case var k when k.Contains("avatar"):
@@ -212,7 +211,7 @@ namespace ViveSR
                             avatar.gameObject.SetActive(true);
                             //organizeData.AppendDataToXml("Stimuli", "Anime", false);
                             experimentValues.currentAvatarShown = "Anime";
-                            organizeData_Csv.AppendDataToCsv(false);
+                            organizeData_csv.AppendDataToCsv(false);
                             PrepareModel(avatar, processedDictionary[currentAvatar], AvatarMaterial);
                             break;
                         case var k when k.Contains("eyes"):
@@ -220,7 +219,7 @@ namespace ViveSR
                             eyes.gameObject.SetActive(true);
                            // organizeData.AppendDataToXml("Stimuli", "Eyes", false);
                             experimentValues.currentAvatarShown = "Eyes";
-                            organizeData_Csv.AppendDataToCsv(false);
+                            organizeData_csv.AppendDataToCsv(false);
                             PrepareModel(eyes, processedDictionary[currentAvatar], EyesMaterial);
                             break;
                         default:
@@ -232,6 +231,7 @@ namespace ViveSR
 
                 private void PrepareModel(GameObject model, string irisValue, Material material)
                 {
+                    Debug.Log("The pupil should be changing towards " + irisValue + " here");
                     Renderer[] renderers = model.GetComponentsInChildren<Renderer>();
                     foreach (Renderer rendererComponent in renderers)
                     {
@@ -240,11 +240,20 @@ namespace ViveSR
 
                     avatarController = model.GetComponent<AvatarController>();
 
-                    // Call the ChangePupilSize method with the desired parameters
-                    float startstimuliAmount = 0;
-                    float targetstimuliAmount = float.Parse(irisValue);
-                    float duration = 0f;
-                    avatarController.StartCoroutine(avatarController.ChangePupilSize(startstimuliAmount, targetstimuliAmount, duration, material));
+                    float startstimuliAmount = material.GetFloat(Shader.PropertyToID("Vector1_FEA38ABB"));
+                    float initialStimuliAmount = float.Parse(irisValue);
+                    Debug.Log(startstimuliAmount + " changing to " + initialStimuliAmount);
+
+                    experimentValues.PupilSizeChanging = false;
+                    material.SetFloat(Shader.PropertyToID("Vector1_FEA38ABB"), initialStimuliAmount);
+                    experimentValues.StimuliPupilSize = initialStimuliAmount;
+                    organizeData_csv.AppendDataToCsv(true);
+
+
+                    //avatarController.StartCoroutine(avatarController.ChangePupilSize(startstimuliAmount, initialStimuliAmount, duration, material));
+
+                    Debug.Log( " Done, the pupil of the stimuli is " + initialStimuliAmount + " see " + experimentValues.StimuliPupilSize + "and" + material.GetFloat(Shader.PropertyToID("Vector1_FEA38ABB")) );
+
                 }
 
                 private IEnumerator GiveInstructions()
