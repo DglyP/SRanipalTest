@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
@@ -7,109 +8,133 @@ using UnityEngine;
 public class OrganizeData : MonoBehaviour
 {
     public ExperimentValues experimentValues;
-
-    private string logFilePath; // Path to the XML log file
+    public StartNewSession startNewSession;
+    private string logFilePath;
 
     private void Start()
     {
-        Debug.Log("Started Scene");
-
-        logFilePath = "Participant_" + experimentValues.participantID + "_debug_log.xml"; // Initialize logFilePath here
-
-        bool appendData = File.Exists(logFilePath);
-
-        if (appendData)
-        {
-            StartNewSession();
-        }
-        else
-        {
-            experimentValues.currentSession = 1;
-            CreateXmlFile();
-            Debug.Log("Debug log written to XML file: " + logFilePath);
-        }
     }
 
-    private void CreateXmlFile()
+    public void CreateXmlFile()
     {
+        experimentValues.currentSession = 1;
+        experimentValues.maxPupilSize = 1;
+        experimentValues.minPupilSize = 9;
+        logFilePath = experimentValues.logFilePath;
         XmlWriterSettings writerSettings = new XmlWriterSettings();
         writerSettings.Indent = true;
 
         using (XmlWriter xmlWriter = XmlWriter.Create(logFilePath, writerSettings))
         {
             xmlWriter.WriteStartElement("ParticipantNumber_" + experimentValues.participantID);
-
-            xmlWriter.WriteStartElement("Session_" + experimentValues.currentSession);
-            xmlWriter.WriteElementString("Time", System.DateTime.Now.ToString());
             xmlWriter.WriteEndElement();
-
-            xmlWriter.WriteEndElement();
-
             xmlWriter.Flush();
         }
+
+        startNewSession.AppendSession(logFilePath);
     }
 
-    public void StartNewSession()
+    public void AppendDataToXml(string variableName, string variableValue, bool isPupilData)
     {
+        logFilePath = experimentValues.logFilePath;
         // Load the existing XML file
         XmlDocument xmlDoc = new XmlDocument();
         xmlDoc.Load(logFilePath);
 
-        // Find the <ParticipantNumber> element
-        XmlElement participantElement = xmlDoc.SelectSingleNode("//ParticipantNumber_" + experimentValues.participantID) as XmlElement;
+        // Find the session element
+        XmlElement sessionElement = xmlDoc.SelectSingleNode("ParticipantNumber_" + experimentValues.participantID + "/Session_" + (experimentValues.currentSession)) as XmlElement;
 
-        if (participantElement != null)
+        if (sessionElement != null)
         {
-            // Create the new session element
-            XmlElement sessionElement = xmlDoc.CreateElement("Session_" + (experimentValues.currentSession + 1));
+            // Create the appropriate element based on isPupilData
+            XmlElement dataElement;
+            if (isPupilData)
+            {
+                XmlNodeList avatarStimuliNodes = sessionElement.SelectNodes("//" + experimentValues.currentAvatarShown + "_Stimuli");
+                XmlNode lastAvatarStimuliNode = avatarStimuliNodes[avatarStimuliNodes.Count - 1];
 
-            // Create the <Time> element and set its value
-            XmlElement timeElement = xmlDoc.CreateElement("Time");
-            timeElement.InnerText = System.DateTime.Now.ToString();
+                dataElement = xmlDoc.CreateElement("PupilData");
+                dataElement.SetAttribute(variableName, variableValue);
+                if (lastAvatarStimuliNode == null)
+                {
+                    //Debug.Log("That tag doesn't exist");
+                    sessionElement.AppendChild(dataElement);
+                }
+                else
+                {
+                    lastAvatarStimuliNode.AppendChild(dataElement);
+                }
 
-            // Append the <Time> element to the <Session> element
-            sessionElement.AppendChild(timeElement);
+            }
+            else
+            {
+                dataElement = xmlDoc.CreateElement(variableValue + "_" + variableName);
+                // Append the data element to the session element
+                sessionElement.AppendChild(dataElement);
+            }
 
-            // Append the new session element to the <ParticipantNumber> element
-            participantElement.AppendChild(sessionElement);
+            // Add timestamp attribute
+            XmlAttribute timestampAttribute = xmlDoc.CreateAttribute("Timestamp");
+            timestampAttribute.Value = DateTime.Now.ToString();
+            dataElement.Attributes.Append(timestampAttribute);
 
             // Save the modified XML file
             xmlDoc.Save(logFilePath);
-
-            Debug.Log("New session added to XML file: " + logFilePath);
         }
         else
         {
-            Debug.LogError("No ParticipantNumber tag found in the XML file.");
+            Debug.LogError("No session element found in the XML file.");
         }
     }
 
-    public void AppendDataToXml(string variableName, string variableValue)
+
+    public void TestPupilAppend(string variableName, string variableValue, bool isPupilData)
     {
+        logFilePath = experimentValues.logFilePath;
         // Load the existing XML file
         XmlDocument xmlDoc = new XmlDocument();
         xmlDoc.Load(logFilePath);
 
-        // Find the last <LogEntry> element
-        XmlElement logEntryElement = xmlDoc.SelectSingleNode("//ParticipantNumber_" + experimentValues.participantID + "[last()]") as XmlElement;
-        if (logEntryElement != null)
-        {
-            // Create the <PupilData> element
-            XmlElement pupilDataElement = xmlDoc.CreateElement("PupilData");
-            pupilDataElement.SetAttribute("VariableName", variableName);
-            pupilDataElement.SetAttribute("VariableValue", variableValue);
+        // Find the session element
+        XmlElement sessionElement = xmlDoc.SelectSingleNode("ParticipantNumber_" + experimentValues.participantID + "/Session_" + (experimentValues.currentSession)) as XmlElement;
 
-            // Append the <PupilData> element to the <LogEntry> element
-            logEntryElement.AppendChild(pupilDataElement);
+        if (sessionElement != null)
+        {
+            // Create the appropriate element based on isPupilData
+            XmlElement dataElement;
+            if (isPupilData)
+            {
+                XmlNodeList avatarStimuliNodes = sessionElement.SelectNodes("/Session_" + (experimentValues.currentSession));
+                XmlNode lastAvatarStimuliNode = avatarStimuliNodes[avatarStimuliNodes.Count - 1];
+
+                dataElement = xmlDoc.CreateElement("TestPupilData");
+                dataElement.SetAttribute(variableName, variableValue);
+                if (lastAvatarStimuliNode == null)
+                {
+                    //Debug.Log("That tag doesn't exist");
+                    sessionElement.AppendChild(dataElement);
+                }
+                else
+                {
+                    lastAvatarStimuliNode.AppendChild(dataElement);
+                }
+
+            }
+            else
+            {
+                dataElement = xmlDoc.CreateElement(variableValue + "_" + variableName);
+                // Append the data element to the session element
+                sessionElement.AppendChild(dataElement);
+            }
+
 
             // Save the modified XML file
             xmlDoc.Save(logFilePath);
-
-            Debug.Log("Data appended to XML file: " + logFilePath);
         }
         else
         {
-            Debug.LogError("No existing tag found in the XML file.");
+            Debug.LogError("No session element found in the XML file.");
         }
     }
 }
+

@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -8,12 +8,12 @@ namespace ViveSR
     {
         namespace Eye
         {
-            public class DataGatherer : MonoBehaviour
+            public class DataGatherer_v2 : MonoBehaviour
             {
                 public OrganizeData organizeData;
                 public OrganizeData_csv organizeData_Csv;
                 public ExperimentValues experimentValues;
-
+               
                 EyeData_v2 eye;
                 Vector2 LeftPupil;
                 Vector2 RightPupil;
@@ -29,8 +29,8 @@ namespace ViveSR
                 {
                     while (true)
                     {
-
-
+                       
+                        
                         SRanipal_Eye_API.GetEyeData_v2(ref eye);
                         experimentValues.UserLeftPupilSize = eye.verbose_data.left.pupil_diameter_mm;
                         experimentValues.UserRightPupilSize = eye.verbose_data.right.pupil_diameter_mm;

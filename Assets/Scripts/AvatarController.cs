@@ -10,10 +10,16 @@ public class AvatarController : MonoBehaviour
     public GameObject EyesWithPupil;
     public Material material;
     private Renderer rendererComponent;
-    public ExperimentValues numberOfStimuli;
-    public ExperimentValues readyToChange;
+    public ExperimentValues experimentValues;
+
+    public ExperimentValues changeTimes;
+
     public GameObject pupilDataGatherer;
-    private int pupilApertureID;
+
+    public OrganizeData organizeData;
+    public OrganizeData_csv organizeData_csv;
+
+    public int pupilApertureID;
     public float speed = 4f;
 
     private Coroutine gatherDataCoroutine;
@@ -32,8 +38,9 @@ public class AvatarController : MonoBehaviour
     {
         if (gatherDataCoroutine != null)
         {
-            Debug.Log("Stopped gathering data");
+            //Debug.Log("Stopped gathering data");
             StopCoroutine(gatherDataCoroutine);
+            experimentValues.PupilDataActive = false;
             gatherDataCoroutine = null;
         }
     }
@@ -42,11 +49,11 @@ public class AvatarController : MonoBehaviour
     {
         // Call the GatherData coroutine repeatedly during the 15 seconds
         // Start the GatherData coroutine from the DataGatherer script in PupilDataGatherer
-        Debug.Log("Waiting for 15 seconds to gather data");
-        yield return new WaitForSeconds(15f);
-        Debug.Log("Stopping Gathering Data");
+        //Debug.Log("Waiting for 15 seconds to gather data");
+        yield return new WaitForSeconds(changeTimes.DataGatheringTime);
+        //Debug.Log("Stopping Gathering Data");
         StopCoroutine(gatherDataCoroutine );
-        readyToChange.stageReady = true;
+        experimentValues.stageReady = true;
     }
 
 
@@ -60,41 +67,80 @@ public class AvatarController : MonoBehaviour
             rendererComponent.enabled = true; // Enable rendering
         }
 
-        Debug.Log("Waiting for 2 seconds before gathering data");
-        yield return new WaitForSeconds(2f);
-        Debug.Log("2 Seconds passed, now gathering data");
+        //Debug.Log("Waiting for 2 seconds before gathering data");
+        yield return new WaitForSeconds(changeTimes.WaitForPupilToAdjust);
+       // Debug.Log("2 Seconds passed, now gathering data");
 
         DataGatherer dataGatherer = pupilDataGatherer.GetComponent<DataGatherer>();
-        gatherDataCoroutine = StartCoroutine(dataGatherer.GatherData());
 
         rendererComponent = EyesWithPupil.GetComponent<Renderer>();
 
         pupilApertureID = Shader.PropertyToID("Vector1_FEA38ABB");
 
         float startValue = material.GetFloat(pupilApertureID);
-
+        startValue = FixPupilSize(startValue);
         float targetValue = GetNewPupilSize(startValue);
+
+        experimentValues.StimuliStartSize = startValue;
+        experimentValues.StimuliEndSize = targetValue;
+
         float transitionDuration = speed;
 
-        Debug.Log("Performing transition of pupils");
-        yield return StartCoroutine(ChangePupilSize(startValue, targetValue, transitionDuration, material));
-        Debug.Log("Transition completed!");
+        //Debug.Log("Performing transition of pupils");
+        experimentValues.PupilDataActive = true;
+        gatherDataCoroutine = StartCoroutine(dataGatherer.GatherData());
 
-        // Wait for 15 seconds before calling GatherData
+        yield return new WaitForSeconds(changeTimes.WaitForStartPupilChange);
+
+        //organizeData.AppendDataToXml("Starting_at_" + startValue.ToString(), "Target_is_" + targetValue.ToString(), false);
+        organizeData_csv.AppendDataToCsv(false);
+
+        yield return StartCoroutine(ChangePupilSize(startValue, targetValue, transitionDuration, material));
+        //Debug.Log("Transition completed!");
+
+        // Wait for few seconds before calling GatherData
         yield return StartCoroutine(WaitToGatherData());
 
         // Stop the GatherData coroutine
         StopGatherDataCoroutine();
     }
 
-    private float GetNewPupilSize(float currentValue)
+    private float FixPupilSize(float startValue)
     {
-        if (currentValue < 0.5f)
+        if (startValue < 0.1f)
         {
-            return 1f;
+            Debug.Log("the current value is " + startValue + " so will be changed to 0");
+            return 0f;
+        }
+        else if (startValue < 0.7f)
+        {
+            Debug.Log("the current value is " + startValue + " so will be changed to 0.5");
+            return 0.5f;
         }
         else
         {
+            Debug.Log("the current value is " + startValue + " so will be changed to 1");
+            return 1f;
+        }
+    }
+
+    private float GetNewPupilSize(float currentValue)
+    {
+        if (currentValue < 0.1f)
+        {
+            Debug.Log("the current value is " + currentValue + " so 1 will be my target");
+            return 1f;
+        }
+        else if (currentValue < 0.7f)
+        {
+
+            Debug.Log("the current value is " + currentValue + " so 0.5 will be my target");
+            return 0.5f;
+        }
+        else
+        {
+
+            Debug.Log("the current value is " + currentValue + " so 0 will be my target");
             return 0f;
         }
     }
@@ -104,11 +150,27 @@ public class AvatarController : MonoBehaviour
         float timeElapsed = 0f;
         while (timeElapsed < duration)
         {
+            experimentValues.PupilSizeChanging = true;
             timeElapsed += Time.deltaTime;
             float t = Mathf.Clamp01(timeElapsed / duration);
             float value = Mathf.Lerp(startValue, targetValue, t);
             material.SetFloat(pupilApertureID, value);
+            experimentValues.StimuliPupilSize = value;
+            if (duration < 1f)
+            {
+                //True to ignore the append
+                organizeData_csv.AppendDataToCsv(true);
+            }
+            else
+            {
+                organizeData_csv.AppendDataToCsv(false);
+                //Debug.Log(value);
+            }
             yield return null;
         }
+
+        material.SetFloat(pupilApertureID, targetValue);
+        experimentValues.PupilSizeChanging = false;
+        //organizeData.AppendDataToXml("Pupil_of_stimuli_is", targetValue.ToString(), true);
     }
 }
