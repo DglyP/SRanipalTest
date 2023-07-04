@@ -10,7 +10,7 @@ namespace Test120FPS
 {
     public class Sample_GetDataThread : MonoBehaviour
     {
-        public EyeData data = new EyeData();
+        public EyeData_v2 data = new EyeData_v2();
         private Thread thread;
         private const int FrequencyControl = 1;
         private const int MaxFrameCount = 3600;
@@ -41,7 +41,7 @@ namespace Test120FPS
 
             while (FrameCount < MaxFrameCount)
             {
-                ViveSR.Error error = SRanipal_Eye_API.GetEyeData(ref data);
+                ViveSR.Error error = SRanipal_Eye_API.GetEyeData_v2(ref data);
 
                 if (error == ViveSR.Error.WORK)
                 {

@@ -8,7 +8,7 @@ namespace Test120FPS
     public class Sample_MainThread : MonoBehaviour
     {
         private Sample_GetDataThread DataThread = null;
-        private EyeData data = new EyeData();
+        private EyeData_v2 data = new EyeData_v2();
 
         // Use this for initialization
         void Start()
