@@ -106,6 +106,7 @@ namespace ViveSR
                     }
 
                     currentTime = System.DateTime.Now.ToString("HH:mm:ss:fff");
+                    frame = Time.frameCount;
 
                     organizeData_csv.AppendDataToCsv(false);
                     // Create the data string to be appended to the CSV
