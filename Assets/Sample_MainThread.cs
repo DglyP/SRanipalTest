@@ -9,6 +9,8 @@ namespace Test120FPS
     {
         private Sample_GetDataThread DataThread = null;
         private EyeData_v2 data = new EyeData_v2();
+        public OrganizeData_csv organizeData_Csv;
+        public ExperimentValues experimentValues;
 
         // Use this for initialization
         void Start()
@@ -22,8 +24,9 @@ namespace Test120FPS
         void Update()
         {
             data = DataThread.data;
-            Debug.Log("Left eye openness: " + data.verbose_data.left.eye_openness);
-            Debug.Log("Right eye openness: " + data.verbose_data.right.eye_openness);
+            experimentValues.UserLeftPupilSize = data.verbose_data.left.pupil_diameter_mm;
+            experimentValues.UserRightPupilSize = data.verbose_data.right.pupil_diameter_mm;
+            organizeData_Csv.AppendDataToCsv(false);
         }
     }
 }

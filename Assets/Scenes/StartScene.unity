@@ -217,6 +217,27 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 4717550569664368, guid: 52a2ca929ce44cb409714ebf1ead8332, type: 3}
   m_PrefabInstance: {fileID: 996163082}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &617273071 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1707266662751158, guid: f676e25d0fcd1ec4fa22af3017316de9, type: 3}
+  m_PrefabInstance: {fileID: 1554550702}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &617273074
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 617273071}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7cb5c70cdc12a8148941e4fb2971cd6a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  LengthOfRay: 25
+  GazeRayRenderer: {fileID: 1721355618}
+  organizeData_csv: {fileID: 1716317171}
+  experimentValues: {fileID: 11400000, guid: 5eb295d6fde0ea14ab3f0f74209677f7, type: 2}
 --- !u!1 &694628832
 GameObject:
   m_ObjectHideFlags: 0
@@ -1510,3 +1531,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   experimentValues: {fileID: 11400000, guid: 5eb295d6fde0ea14ab3f0f74209677f7, type: 2}
   startNewSession: {fileID: 1716317170}
+--- !u!120 &1721355618 stripped
+LineRenderer:
+  m_CorrespondingSourceObject: {fileID: 120159424192045528, guid: 95145ad4fe8448d4ebdcf3760752e2e5, type: 3}
+  m_PrefabInstance: {fileID: 1322830135}
+  m_PrefabAsset: {fileID: 0}

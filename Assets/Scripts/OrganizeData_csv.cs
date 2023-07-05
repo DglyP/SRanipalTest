@@ -21,7 +21,7 @@ public class OrganizeData_csv : MonoBehaviour
         // Create the CSV file and write the header
         using (StreamWriter fileWriter = new StreamWriter(logFilePathCsv))
         {
-            fileWriter.WriteLine("Participant,Time,CurrentSession,ConstrictedSize,DilatedSize,CurrentStimuli,StimuliStartSize,StimuliEndSize,StimuliPupilSize,PupilSizeChanging,PupilDataActive,LeftPupilSize,RightPupilSize"); // Modify the header as needed
+            fileWriter.WriteLine("Participant,UnityTime,CurrentSession,ConstrictedSize,DilatedSize,CurrentStimuli,StimuliStartSize,StimuliEndSize,StimuliPupilSize,PupilSizeChanging,PupilDataActive,LeftPupilSize,RightPupilSize,Frame"); // Modify the header as needed
         }
         startNewSession.AppendSession(logFilePathCsv);
     }
@@ -38,8 +38,10 @@ public class OrganizeData_csv : MonoBehaviour
         else
         {
             // Create the data string to be appended to the CSV
-            string currentTime = System.DateTime.Now.ToString("HH:mm:ss:fff");
-            string data = $"{experimentValues.participantID},{currentTime},{experimentValues.currentSession},{experimentValues.minPupilSize},{experimentValues.maxPupilSize},{experimentValues.currentAvatarShown},{experimentValues.StimuliStartSize},{experimentValues.StimuliEndSize},{experimentValues.StimuliPupilSize},{experimentValues.PupilSizeChanging},{experimentValues.PupilDataActive},{experimentValues.UserLeftPupilSize},{experimentValues.UserRightPupilSize}";
+            string unityTime = System.DateTime.Now.ToString("HH:mm:ss:fff");
+            experimentValues.unityTime = unityTime;
+            int frame = Time.frameCount;
+            string data = $"{experimentValues.participantID},{unityTime},{experimentValues.currentSession},{experimentValues.minPupilSize},{experimentValues.maxPupilSize},{experimentValues.currentAvatarShown},{experimentValues.StimuliStartSize},{experimentValues.StimuliEndSize},{experimentValues.StimuliPupilSize},{experimentValues.PupilSizeChanging},{experimentValues.PupilDataActive},{experimentValues.UserLeftPupilSize},{experimentValues.UserRightPupilSize},{frame.ToString()}";
 
             // Append the data to the CSV file
             using (StreamWriter fileWriter = File.AppendText(logFilePathCsv))

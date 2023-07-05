@@ -187,7 +187,7 @@ Material:
     - Vector1_EF58F7DF: 0.0477
     - Vector1_F084AE9E: 0.88
     - Vector1_FC0895C8: 0.41
-    - Vector1_FEA38ABB: 1
+    - Vector1_FEA38ABB: 0.5
     - _AORemapMax: 1
     - _AORemapMin: 0
     - _ATDistance: 1

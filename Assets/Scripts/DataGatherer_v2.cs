@@ -28,9 +28,7 @@ namespace ViveSR
                 public IEnumerator GatherData()
                 {
                     while (true)
-                    {
-                       
-                        
+                    {                        
                         SRanipal_Eye_API.GetEyeData_v2(ref eye);
                         experimentValues.UserLeftPupilSize = eye.verbose_data.left.pupil_diameter_mm;
                         experimentValues.UserRightPupilSize = eye.verbose_data.right.pupil_diameter_mm;

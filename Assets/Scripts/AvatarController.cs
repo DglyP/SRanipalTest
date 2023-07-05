@@ -7,7 +7,7 @@ using ViveSR.anipal.Eye;
 
 public class AvatarController : MonoBehaviour
 {
-    public GameObject EyesWithPupil;
+    public GameObject EyesWithPupil; 
     public Material material;
     private Renderer rendererComponent;
     public ExperimentValues experimentValues;
@@ -109,17 +109,17 @@ public class AvatarController : MonoBehaviour
     {
         if (startValue < 0.1f)
         {
-            Debug.Log("the current value is " + startValue + " so will be changed to 0");
+            //Debug.Log("the current value is " + startValue + " so will be changed to 0");
             return 0f;
         }
         else if (startValue < 0.7f)
         {
-            Debug.Log("the current value is " + startValue + " so will be changed to 0.5");
+            //Debug.Log("the current value is " + startValue + " so will be changed to 0.5");
             return 0.5f;
         }
         else
         {
-            Debug.Log("the current value is " + startValue + " so will be changed to 1");
+            //Debug.Log("the current value is " + startValue + " so will be changed to 1");
             return 1f;
         }
     }
@@ -128,19 +128,19 @@ public class AvatarController : MonoBehaviour
     {
         if (currentValue < 0.1f)
         {
-            Debug.Log("the current value is " + currentValue + " so 1 will be my target");
+            //Debug.Log("the current value is " + currentValue + " so 1 will be my target");
             return 1f;
         }
         else if (currentValue < 0.7f)
         {
 
-            Debug.Log("the current value is " + currentValue + " so 0.5 will be my target");
+            //Debug.Log("the current value is " + currentValue + " so 0.5 will be my target");
             return 0.5f;
         }
         else
         {
 
-            Debug.Log("the current value is " + currentValue + " so 0 will be my target");
+            //Debug.Log("the current value is " + currentValue + " so 0 will be my target");
             return 0f;
         }
     }

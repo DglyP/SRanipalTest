@@ -39,6 +39,11 @@ namespace Test120FPS
             int PrevFrameSequence = 0, CurrFrameSequence = 0;
             bool StartRecord = false;
 
+            string filePath = "DataRecord.csv"; // Path to the CSV file
+
+            // Write the CSV header
+            File.WriteAllText(filePath, "FrameSequence, SystemTime" + Environment.NewLine);
+
             while (FrameCount < MaxFrameCount)
             {
                 ViveSR.Error error = SRanipal_Eye_API.GetEyeData_v2(ref data);
@@ -59,9 +64,8 @@ namespace Test120FPS
                 if (FrameCount % 120 == 0 && StartRecord)
                 {
                     long ms = DateTime.Now.Ticks / TimeSpan.TicksPerMillisecond;
-                    string text = "CurrentFrameSequence: " + CurrFrameSequence +
-                        " CurrentSystemTime(ms): " + ms.ToString() + Environment.NewLine;
-                    File.AppendAllText("DataRecord.txt", text);
+                    string csvLine = CurrFrameSequence + "," + ms + Environment.NewLine;
+                    File.AppendAllText(filePath, csvLine);
                     FrameCount = 0;
                 }
 

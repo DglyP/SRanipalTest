@@ -231,7 +231,7 @@ namespace ViveSR
 
                 private void PrepareModel(GameObject model, string irisValue, Material material)
                 {
-                    Debug.Log("The pupil should be changing towards " + irisValue + " here");
+                    //Debug.Log("The pupil should be changing towards " + irisValue + " here");
                     Renderer[] renderers = model.GetComponentsInChildren<Renderer>();
                     foreach (Renderer rendererComponent in renderers)
                     {
@@ -242,7 +242,7 @@ namespace ViveSR
 
                     float startstimuliAmount = material.GetFloat(Shader.PropertyToID("Vector1_FEA38ABB"));
                     float initialStimuliAmount = float.Parse(irisValue);
-                    Debug.Log(startstimuliAmount + " changing to " + initialStimuliAmount);
+                    //Debug.Log(startstimuliAmount + " changing to " + initialStimuliAmount);
 
                     experimentValues.PupilSizeChanging = false;
                     material.SetFloat(Shader.PropertyToID("Vector1_FEA38ABB"), initialStimuliAmount);
@@ -252,7 +252,7 @@ namespace ViveSR
 
                     //avatarController.StartCoroutine(avatarController.ChangePupilSize(startstimuliAmount, initialStimuliAmount, duration, material));
 
-                    Debug.Log( " Done, the pupil of the stimuli is " + initialStimuliAmount + " see " + experimentValues.StimuliPupilSize + "and" + material.GetFloat(Shader.PropertyToID("Vector1_FEA38ABB")) );
+                    //Debug.Log( " Done, the pupil of the stimuli is " + initialStimuliAmount + " see " + experimentValues.StimuliPupilSize + "and" + material.GetFloat(Shader.PropertyToID("Vector1_FEA38ABB")) );
 
                 }
 

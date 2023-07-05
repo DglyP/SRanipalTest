@@ -8,6 +8,7 @@ public class ExperimentValues : ScriptableObject
 {
     public int participantID;
     public int currentSession;
+    public string unityTime;
     public string currentAvatarShown;
     public int numberOfSessions;
     public int stimuliAmount;
