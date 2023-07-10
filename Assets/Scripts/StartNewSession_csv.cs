@@ -14,7 +14,7 @@ public class StartNewSession_csv : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        experimentValues.logFilePathCsv = "Participant_" + experimentValues.participantID + "_debug_log.csv"; // Initialize logFilePathCsv here
+        experimentValues.logFilePathCsv = "_" + experimentValues.participantID + "_" + System.DateTime.Now.ToString("MM_dd") + ".csv"; // Initialize logFilePathCsv here
         logFilePathCsv = experimentValues.logFilePathCsv;
         //Debug.Log("Started Scene");
 

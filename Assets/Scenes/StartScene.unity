@@ -234,8 +234,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7cb5c70cdc12a8148941e4fb2971cd6a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  LengthOfRay: 25
-  GazeRayRenderer: {fileID: 1721355618}
   organizeData_csv: {fileID: 1716317171}
   experimentValues: {fileID: 11400000, guid: 5eb295d6fde0ea14ab3f0f74209677f7, type: 2}
 --- !u!1 &694628832
@@ -750,7 +748,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1979270957677204, guid: 365dc3c335a5e88408e7792556958cfc, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4082760537063126, guid: 365dc3c335a5e88408e7792556958cfc, type: 3}
       propertyPath: m_RootOrder
@@ -1531,8 +1529,3 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   experimentValues: {fileID: 11400000, guid: 5eb295d6fde0ea14ab3f0f74209677f7, type: 2}
   startNewSession: {fileID: 1716317170}
---- !u!120 &1721355618 stripped
-LineRenderer:
-  m_CorrespondingSourceObject: {fileID: 120159424192045528, guid: 95145ad4fe8448d4ebdcf3760752e2e5, type: 3}
-  m_PrefabInstance: {fileID: 1322830135}
-  m_PrefabAsset: {fileID: 0}

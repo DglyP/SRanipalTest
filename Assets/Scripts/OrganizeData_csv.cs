@@ -26,15 +26,18 @@ public class OrganizeData_csv : MonoBehaviour
         startNewSession.AppendSession(logFilePathCsv);
     }
 
-    public void AppendDataToCsv(bool ignore)
+    public void AppendDataToCsv(bool print)
     {
         logFilePathCsv = experimentValues.logFilePathCsv; // Add .csv extension to the file path
 
         // Append the variable data based on isPupilData
-        if (ignore)
+        if (!print)
         {
             //experimentValues.PupilDataActive = true;
-        }
+            string unityTime = System.DateTime.Now.ToString("HH:mm:ss:fff");
+            experimentValues.unityTime = unityTime;
+            int frame = Time.frameCount;
+            }
         else
         {
             // Create the data string to be appended to the CSV
@@ -54,16 +57,19 @@ public class OrganizeData_csv : MonoBehaviour
 
     public void TestPupilAppendCsv(bool isPupilData)
     {
-        logFilePathCsv = experimentValues.logFilePathCsv; // Add .csv extension to the file path
+        if (isPupilData)
+            {
+            logFilePathCsv = experimentValues.logFilePathCsv; // Add .csv extension to the file path
 
-        // Create the data string to be appended to the CSV
-        string currentTime = System.DateTime.Now.ToString("HH:mm:ss:fff");
-        string data = $"{experimentValues.participantID},{currentTime},{experimentValues.currentSession}";
+            // Create the data string to be appended to the CSV
+            string currentTime = System.DateTime.Now.ToString("HH:mm:ss:fff");
+            string data = $"{experimentValues.participantID},{currentTime},{experimentValues.currentSession}";
 
-        // Append the data to the CSV file
-        using (StreamWriter fileWriter = File.AppendText(logFilePathCsv))
-        {
-            fileWriter.WriteLine(data);
-        }
+            // Append the data to the CSV file
+            using (StreamWriter fileWriter = File.AppendText(logFilePathCsv))
+                {
+                fileWriter.WriteLine(data);
+                }
+            }
     }
 }

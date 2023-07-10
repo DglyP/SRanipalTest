@@ -68,7 +68,7 @@ namespace ViveSR
                                             "eyeOpenness_L" + "," + "eyeOpenness_R" + "," +
                                             "pupilPosL.X" + "," + "pupilPosL.Y" + "," +
                                             "pupilPosR.X" + "," + "pupilPosR.Y" + "," +
-                                            "Participant" + ","+ "UnityTime" + "," + "CurrentSession" + "," +
+                                            "Participant" + "," + "UnityTime" + "," + "CurrentSession" + "," +
                                             "ConstrictedSize" + "," + "DilatedSize" + "," +
                                             "CurrentStimuli" + "," + "StimuliStartSize" + "," +
                                             "StimuliEndSize" + "," + "StimuliPupilSize" + "," +
@@ -80,11 +80,11 @@ namespace ViveSR
                 private void Start()
                 {
                     if (!SRanipal_Eye_Framework.Instance.EnableEye)
-                    {
+                        {
                         enabled = false;
                         return;
-                    }
-                    filepath = "Full_Participant" + experimentValues.participantID + "SaveData.csv";
+                        }
+                    filepath = "Full_Participant_" + experimentValues.participantID + "_SaveData.csv";
                     streamwriter = new StreamWriter(filepath, true) { AutoFlush = true };
                     streamwriter.WriteLine(dataLabels);
                 }
@@ -95,15 +95,15 @@ namespace ViveSR
                         SRanipal_Eye_Framework.Status != SRanipal_Eye_Framework.FrameworkStatus.NOT_SUPPORT) return;
 
                     if (SRanipal_Eye_Framework.Instance.EnableEyeDataCallback == true && eye_callback_registered == false)
-                    {
+                        {
                         SRanipal_Eye_v2.WrapperRegisterEyeDataCallback(Marshal.GetFunctionPointerForDelegate((SRanipal_Eye_v2.CallbackBasic)EyeCallback));
                         eye_callback_registered = true;
-                    }
+                        }
                     else if (SRanipal_Eye_Framework.Instance.EnableEyeDataCallback == false && eye_callback_registered == true)
-                    {
+                        {
                         SRanipal_Eye_v2.WrapperUnRegisterEyeDataCallback(Marshal.GetFunctionPointerForDelegate((SRanipal_Eye_v2.CallbackBasic)EyeCallback));
                         eye_callback_registered = false;
-                    }
+                        }
 
                     currentTime = System.DateTime.Now.ToString("HH:mm:ss:fff");
                     frame = Time.frameCount;
@@ -129,11 +129,13 @@ namespace ViveSR
                 private void Release()
                 {
                     if (eye_callback_registered == true)
-                    {
+                        {
                         SRanipal_Eye_v2.WrapperUnRegisterEyeDataCallback(Marshal.GetFunctionPointerForDelegate((SRanipal_Eye_v2.CallbackBasic)EyeCallback));
+                        streamwriter.Close();
                         eye_callback_registered = false;
-                    }
+                        }
                 }
+
                 private static void EyeCallback(ref EyeData_v2 eye_data)
                 {
                     //Debug.Log("callback hogehoge");
@@ -157,7 +159,7 @@ namespace ViveSR
                     pupilDiameterLeft = eyeData.verbose_data.left.pupil_diameter_mm;
                     pupilDiameterRight = eyeData.verbose_data.right.pupil_diameter_mm;
                     pupilDiameterCombined = eyeData.verbose_data.combined.eye_data.pupil_diameter_mm;
-                    Debug.Log("pupilDiameterLeft: " + pupilDiameterLeft);
+                    //Debug.Log("pupilDiameterLeft: " + pupilDiameterLeft);
 
                     // A value representing how open the eye is in [0,1]
                     eyeOpenLeft = eyeData.verbose_data.left.eye_openness;
@@ -171,7 +173,7 @@ namespace ViveSR
                     pupilPositionCombined = eyeData.verbose_data.combined.eye_data.pupil_position_in_sensor_area;
                     //Debug.Log("pupilPositionLeft: " + pupilPositionLeft);
 
-                    Debug.Log("writing to csv");
+                    //Debug.Log("writing to csv");
 
                     streamwriter.WriteLine(
     currentTime + "," + frame + "," + timeStamp + "," +
@@ -189,8 +191,8 @@ namespace ViveSR
     PupilSizeChanging + "," + PupilDataActive + "," + UserLeftPupilSize + "," + UserRightPupilSize);
 
                     //Participant Time    CurrentSession ConstrictedSize DilatedSize CurrentStimuli  StimuliStartSize StimuliEndSize  StimuliPupilSize PupilSizeChanging   PupilDataActive LeftPupilSize   RightPupilSize
-                    }
                 }
+            }
         }
     }
 }

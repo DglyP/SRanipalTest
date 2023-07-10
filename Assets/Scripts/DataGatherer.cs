@@ -54,11 +54,7 @@ namespace ViveSR
 
                                 experimentValues.maxPupilSize = Mathf.Max(experimentValues.maxPupilSize, leftPupilSize, rightPupilSize);
                             }
-
-                            organizeData.TestPupilAppend(state, leftPupilSize.ToString(), true);
-                            organizeData.TestPupilAppend(state, rightPupilSize.ToString(), true);
                             organizeData_Csv.AppendDataToCsv(false);
-
                         }
                         yield return null;
                     }
