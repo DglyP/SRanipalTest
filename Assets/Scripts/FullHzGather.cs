@@ -84,9 +84,20 @@ namespace ViveSR
                         enabled = false;
                         return;
                         }
-                    filepath = "Full_Participant_" + experimentValues.participantID + "_SaveData.csv";
+
+                    filepath = "User_" + experimentValues.participantID + "_Date_" + System.DateTime.Now.ToString("MM_dd") + "_Data.csv";
+
+                    // Check if the file already exists
+                    bool fileExists = File.Exists(filepath);
+
+                    // Open the streamwriter in append mode
                     streamwriter = new StreamWriter(filepath, true) { AutoFlush = true };
-                    streamwriter.WriteLine(dataLabels);
+
+                    // Write the headers if the file doesn't exist
+                    if (!fileExists)
+                        {
+                        streamwriter.WriteLine(dataLabels);
+                        }
                 }
 
                 private void Update()
@@ -135,6 +146,11 @@ namespace ViveSR
                         eye_callback_registered = false;
                         }
                 }
+
+                private void OnDisable()
+                    {
+                        streamwriter.Close();
+                    }
 
                 private static void EyeCallback(ref EyeData_v2 eye_data)
                 {
