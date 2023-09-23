@@ -12,24 +12,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 00a9b43e4926b4d479673081e955acda, type: 3}
   m_Name: ExperimentValues
   m_EditorClassIdentifier: 
-  participantID: 6
+  participantID: 1
   currentSession: 9
-  unityTime: 19:03:57:488
-  currentAvatarShown: Eyes
+  unityTime: 11:49:25:038
+  currentAvatarShown: Human
   numberOfSessions: 9
   stimuliAmount: 9
   stageReady: 1
-  logFilePath: Participant_6_debug_log.xml
-  logFilePathCsv: _6_07_09.csv
+  logFilePath: Participant_3_debug_log.xml
+  logFilePathCsv: _3_07_18.csv
   WaitForPupilToAdjust: 2
   DataGatheringTime: 10
   WaitForStartPupilChange: 2
-  minPupilSize: 1.8623047
-  maxPupilSize: 5.2977295
-  StimuliStartSize: 0.5
-  StimuliEndSize: 0.5
-  StimuliPupilSize: 0.5
+  minPupilSize: 1.7208405
+  maxPupilSize: 4.071167
+  StimuliStartSize: 1
+  StimuliEndSize: 0
+  StimuliPupilSize: 0
   PupilSizeChanging: 0
   PupilDataActive: 0
-  UserLeftPupilSize: 4.013809
-  UserRightPupilSize: 4.182907
+  UserLeftPupilSize: 3.8756714
+  UserRightPupilSize: 3.9841309
